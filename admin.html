@@ -163,6 +163,23 @@
                 </button>
             </div>
             <div class="form-group">
+                <label class="form-label">Foto do grupo</label>
+                <div class="photo-upload" id="new-group-photo-wrap">
+                    <div class="photo-preview" id="new-group-photo-preview">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#9AA0A6">
+                            <path
+                                d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                        </svg>
+                    </div>
+                    <div class="photo-upload-text">
+                        <span class="photo-upload-btn">Escolher foto</span>
+                        <span class="photo-upload-hint">JPG, PNG ate 2MB</span>
+                    </div>
+                    <input type="file" id="new-group-photo" accept="image/*" class="photo-file-input"
+                        onchange="previewPhoto(this, 'new-group-photo-preview')">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="form-label">Nome do grupo</label>
                 <input type="text" id="new-group-name" class="form-input" placeholder="ex: Familia Premium 01">
             </div>
@@ -239,6 +256,23 @@
                             d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
                     </svg>
                 </button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Foto do grupo</label>
+                <div class="photo-upload" id="edit-group-photo-wrap">
+                    <div class="photo-preview" id="edit-group-photo-preview">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#9AA0A6">
+                            <path
+                                d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                        </svg>
+                    </div>
+                    <div class="photo-upload-text">
+                        <span class="photo-upload-btn">Trocar foto</span>
+                        <span class="photo-upload-hint">JPG, PNG ate 2MB</span>
+                    </div>
+                    <input type="file" id="edit-group-photo" accept="image/*" class="photo-file-input"
+                        onchange="previewPhoto(this, 'edit-group-photo-preview')">
+                </div>
             </div>
             <div class="form-group">
                 <label class="form-label">Nome do grupo</label>

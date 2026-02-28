@@ -113,8 +113,12 @@ function renderGroups() {
         var statusLabel = { open: 'Aberto', almost: 'Quase lotado', full: 'Lotado' };
         var color = COLORS[i % COLORS.length];
 
+        var avatarHtml = g.photo
+            ? '<img src="' + g.photo + '" class="card-avatar-img" alt="' + (g.name || g.id) + '">'
+            : '<div class="card-avatar ' + color + '">' + g.id.replace('GRP-', '') + '</div>';
+
         return '<div class="item-card" onclick="editGroup(\'' + g.id + '\')">' +
-            '<div class="card-avatar ' + color + '">' + g.id.replace('GRP-', '') + '</div>' +
+            avatarHtml +
             '<div class="card-info">' +
             '<div class="card-title">' + (g.name || g.id) + '</div>' +
             '<div class="card-sub">' + count + '/' + g.totalSlots + ' membros &middot; R$ ' + g.price.toFixed(2) + '/mes</div>' +
@@ -252,11 +256,14 @@ function addGroup() {
     var slots = parseInt(document.getElementById('new-group-slots').value) || 6;
     var price = parseFloat(document.getElementById('new-group-price').value) || 101.50;
     var link = document.getElementById('new-group-link').value.trim();
+    var photo = pendingPhotoData['new-group-photo-preview'] || null;
 
-    groups.push({ id: id, name: name, totalSlots: slots, price: price, link: link });
+    groups.push({ id: id, name: name, totalSlots: slots, price: price, link: link, photo: photo });
     saveGroups(groups);
     closeModals();
     document.getElementById('new-group-name').value = '';
+    document.getElementById('new-group-photo-preview').innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#9AA0A6"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
+    delete pendingPhotoData['new-group-photo-preview'];
     refreshAll();
 }
 
@@ -271,6 +278,16 @@ function editGroup(id) {
     document.getElementById('edit-group-slots').value = g.totalSlots;
     document.getElementById('edit-group-price').value = g.price;
     document.getElementById('edit-group-link').value = g.link || '';
+
+    // Show existing photo
+    var preview = document.getElementById('edit-group-photo-preview');
+    if (g.photo) {
+        preview.innerHTML = '<img src="' + g.photo + '" alt="Foto">';
+        pendingPhotoData['edit-group-photo-preview'] = g.photo;
+    } else {
+        preview.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#9AA0A6"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
+        delete pendingPhotoData['edit-group-photo-preview'];
+    }
     showModal('edit-group');
 }
 
@@ -284,8 +301,12 @@ function saveGroup() {
     g.totalSlots = parseInt(document.getElementById('edit-group-slots').value) || 6;
     g.price = parseFloat(document.getElementById('edit-group-price').value) || 101.50;
     g.link = document.getElementById('edit-group-link').value.trim();
+    if (pendingPhotoData['edit-group-photo-preview']) {
+        g.photo = pendingPhotoData['edit-group-photo-preview'];
+    }
     saveGroups(groups);
     closeModals();
+    delete pendingPhotoData['edit-group-photo-preview'];
     refreshAll();
 }
 
@@ -380,4 +401,21 @@ function showModal(name) {
 function closeModals() {
     document.querySelectorAll('.modal-overlay').forEach(function (m) { m.style.display = 'none'; });
     document.body.style.overflow = '';
+}
+
+// ===== PHOTO UPLOAD =====
+var pendingPhotoData = {};
+
+function previewPhoto(input, previewId) {
+    var file = input.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) { alert('Imagem muito grande. Maximo 2MB.'); input.value = ''; return; }
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var preview = document.getElementById(previewId);
+        preview.innerHTML = '<img src="' + e.target.result + '" alt="Foto">';
+        pendingPhotoData[previewId] = e.target.result;
+    };
+    reader.readAsDataURL(file);
 }

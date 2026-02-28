@@ -32,12 +32,58 @@ function initNavbar() {
       });
 }
 
-// ===== GROUPS =====
+// ===== GROUPS (reads from admin localStorage) =====
+function getAdminGroups() {
+      try {
+            var d = JSON.parse(localStorage.getItem('admin_groups'));
+            return d || null;
+      } catch (e) { return null; }
+}
+
+function getAdminMembers() {
+      try {
+            var d = JSON.parse(localStorage.getItem('admin_members'));
+            return d || [];
+      } catch (e) { return []; }
+}
+
 function renderGroups() {
       var grid = document.getElementById('groups-grid');
       if (!grid) return;
 
-      var sorted = GROUPS.slice().sort(function (a, b) {
+      // Try admin groups first, fallback to GROUPS from data.js
+      var adminGroups = getAdminGroups();
+      var members = getAdminMembers();
+
+      var groups;
+      if (adminGroups && adminGroups.length > 0) {
+            // Convert admin format to display format
+            groups = adminGroups.map(function (g) {
+                  var activeMembers = members.filter(function (m) {
+                        return m.group === g.id && m.status === 'ativo';
+                  }).length;
+                  var free = g.totalSlots - activeMembers;
+                  var status = free <= 0 ? 'full' : (free <= 1 ? 'almost' : 'open');
+                  return {
+                        id: g.id,
+                        name: g.name || g.id,
+                        filledSlots: activeMembers,
+                        totalSlots: g.totalSlots,
+                        status: status,
+                        paymentLink: g.link || 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra',
+                        photo: g.photo || null,
+                        price: g.price || 101.50
+                  };
+            });
+      } else if (typeof GROUPS !== 'undefined') {
+            groups = GROUPS;
+      } else {
+            grid.innerHTML = '<p style="text-align:center;color:#5F6368;padding:40px;">Nenhum grupo cadastrado. Acesse o painel admin para criar grupos.</p>';
+            return;
+      }
+
+      // Sort: full groups last
+      var sorted = groups.slice().sort(function (a, b) {
             if (a.status === 'full' && b.status !== 'full') return 1;
             if (a.status !== 'full' && b.status === 'full') return -1;
             return 0;
@@ -49,6 +95,7 @@ function renderGroups() {
 function createGroupCard(group) {
       var available = group.totalSlots - group.filledSlots;
       var isFull = group.status === 'full';
+      var price = group.price || 101.50;
 
       var statusLabels = { open: 'Vagas abertas', almost: 'Quase lotado', full: 'Lotado' };
       var statusClass = { open: 'status-open', almost: 'status-almost', full: 'status-full' };
@@ -66,15 +113,22 @@ function createGroupCard(group) {
             ? '<button class="btn btn-sm btn-secondary" disabled style="opacity:0.5;cursor:not-allowed;">Lotado</button>'
             : '<button class="btn btn-sm btn-google" onclick="openCheckout(\'' + group.id + '\')">Entrar</button>';
 
+      // Photo or default icon
+      var photoHtml = group.photo
+            ? '<img src="' + group.photo + '" alt="' + (group.name || group.id) + '" class="plan-photo">'
+            : '<div class="plan-icon">G</div>';
+
+      var groupName = group.name || 'Google One AI Premium';
+
       return '<div class="group-card animate-on-scroll">' +
             '<div class="group-card-header">' +
             '<span class="group-id">' + group.id + '</span>' +
             '<span class="group-status ' + statusClass[group.status] + '">' + statusLabels[group.status] + '</span>' +
             '</div>' +
             '<div class="group-card-plan">' +
-            '<div class="plan-icon">G</div>' +
+            photoHtml +
             '<div class="plan-info">' +
-            '<h4>Google One AI Premium</h4>' +
+            '<h4>' + groupName + '</h4>' +
             '<span>2TB &middot; Gemini &middot; Flow &middot; VPN</span>' +
             '</div>' +
             '</div>' +
@@ -83,7 +137,7 @@ function createGroupCard(group) {
             '<span class="slots-text">' + slotsText + '</span>' +
             '</div>' +
             '<div class="group-card-footer">' +
-            '<div class="group-price">R$ 101,50 <span>/mes</span></div>' +
+            '<div class="group-price">R$ ' + price.toFixed(2).replace('.', ',') + ' <span>/mes</span></div>' +
             footerBtn +
             '</div>' +
             '</div>';
@@ -91,11 +145,30 @@ function createGroupCard(group) {
 
 // ===== CHECKOUT FLOW =====
 function openCheckout(groupId) {
-      currentGroup = GROUPS.find(function (g) { return g.id === groupId; }) || { id: groupId, paymentLink: '' };
+      // Find group from admin data or fallback
+      var adminGroups = getAdminGroups();
+      var members = getAdminMembers();
+
+      if (adminGroups) {
+            var ag = adminGroups.find(function (g) { return g.id === groupId; });
+            if (ag) {
+                  currentGroup = {
+                        id: ag.id,
+                        name: ag.name,
+                        paymentLink: ag.link || 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra',
+                        price: ag.price || 101.50
+                  };
+            }
+      }
+      if (!currentGroup) {
+            currentGroup = (typeof GROUPS !== 'undefined')
+                  ? GROUPS.find(function (g) { return g.id === groupId; }) || { id: groupId, paymentLink: '' }
+                  : { id: groupId, paymentLink: '' };
+      }
 
       // Reset to step 1
       showCheckoutStep(1);
-      document.getElementById('modal-group-name').textContent = groupId;
+      document.getElementById('modal-group-name').textContent = currentGroup.name || groupId;
       document.getElementById('checkout-modal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
 
@@ -109,6 +182,7 @@ function openCheckout(groupId) {
 function closeCheckout() {
       document.getElementById('checkout-modal').style.display = 'none';
       document.body.style.overflow = '';
+      currentGroup = null;
 }
 
 function showCheckoutStep(step) {
@@ -134,14 +208,14 @@ function goToStep2() {
       errEl.style.display = 'none';
 
       // Fill summary
-      document.getElementById('summary-group').textContent = currentGroup ? currentGroup.id : '';
+      document.getElementById('summary-group').textContent = currentGroup ? (currentGroup.name || currentGroup.id) : '';
       document.getElementById('summary-phone').textContent = '+55 ' + phone;
       document.getElementById('summary-email').textContent = email;
 
       // Set payment link
       var payLink = (currentGroup && currentGroup.paymentLink && currentGroup.paymentLink !== '#checkout')
             ? currentGroup.paymentLink
-            : 'https://app.diasmarketplace.com.br'; // fallback
+            : 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra';
       document.getElementById('payment-link-btn').href = payLink;
 
       showCheckoutStep(2);
@@ -171,7 +245,6 @@ function saveLeadAndRedirect() {
       // Update confirm screen
       document.getElementById('confirm-phone').textContent = '+55 ' + phone;
 
-      // Show step 3 after a small delay
       setTimeout(function () {
             showCheckoutStep(3);
       }, 500);
