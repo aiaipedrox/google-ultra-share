@@ -13,83 +13,44 @@ function initNavbar() {
       var toggle = document.getElementById('menu-toggle');
       var links = document.getElementById('nav-links');
       if (toggle && links) {
-            toggle.addEventListener('click', function () {
-                  links.classList.toggle('active');
-            });
+            toggle.addEventListener('click', function () { links.classList.toggle('active'); });
             links.querySelectorAll('a').forEach(function (link) {
-                  link.addEventListener('click', function () {
-                        links.classList.remove('active');
-                  });
+                  link.addEventListener('click', function () { links.classList.remove('active'); });
             });
       }
       window.addEventListener('scroll', function () {
             var navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                  navbar.style.boxShadow = '0 1px 10px rgba(0,0,0,0.06)';
-            } else {
-                  navbar.style.boxShadow = 'none';
-            }
+            if (window.scrollY > 50) { navbar.style.boxShadow = '0 1px 10px rgba(0,0,0,0.06)'; }
+            else { navbar.style.boxShadow = 'none'; }
       });
 }
 
-// ===== GROUPS (reads from admin localStorage) =====
-function getAdminGroups() {
-      try {
-            var d = JSON.parse(localStorage.getItem('admin_groups'));
-            return d || null;
-      } catch (e) { return null; }
-}
-
-function getAdminMembers() {
-      try {
-            var d = JSON.parse(localStorage.getItem('admin_members'));
-            return d || [];
-      } catch (e) { return []; }
-}
-
+// ===== GROUPS (from API) =====
 function renderGroups() {
       var grid = document.getElementById('groups-grid');
       if (!grid) return;
 
-      // Try admin groups first, fallback to GROUPS from data.js
-      var adminGroups = getAdminGroups();
-      var members = getAdminMembers();
-
-      var groups;
-      if (adminGroups && adminGroups.length > 0) {
-            // Convert admin format to display format
-            groups = adminGroups.map(function (g) {
-                  var activeMembers = members.filter(function (m) {
-                        return m.group === g.id && m.status === 'ativo';
-                  }).length;
-                  var free = g.totalSlots - activeMembers;
-                  var status = free <= 0 ? 'full' : (free <= 1 ? 'almost' : 'open');
-                  return {
-                        id: g.id,
-                        name: g.name || g.id,
-                        filledSlots: activeMembers,
-                        totalSlots: g.totalSlots,
-                        status: status,
-                        paymentLink: g.link || 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra',
-                        photo: g.photo || null,
-                        price: g.price || 101.50
-                  };
+      fetch('/api/groups.php')
+            .then(function (r) { return r.json(); })
+            .then(function (groups) {
+                  if (!groups || groups.length === 0) {
+                        grid.innerHTML = '<p style="text-align:center;color:#5F6368;padding:40px;">Nenhum grupo disponivel no momento.</p>';
+                        return;
+                  }
+                  var sorted = groups.slice().sort(function (a, b) {
+                        if (a.status === 'full' && b.status !== 'full') return 1;
+                        if (a.status !== 'full' && b.status === 'full') return -1;
+                        return 0;
+                  });
+                  grid.innerHTML = sorted.map(createGroupCard).join('');
+                  initScrollAnimations();
+            })
+            .catch(function () {
+                  // Fallback to data.js if API unavailable
+                  if (typeof GROUPS !== 'undefined') {
+                        grid.innerHTML = GROUPS.map(createGroupCard).join('');
+                  }
             });
-      } else if (typeof GROUPS !== 'undefined') {
-            groups = GROUPS;
-      } else {
-            grid.innerHTML = '<p style="text-align:center;color:#5F6368;padding:40px;">Nenhum grupo cadastrado. Acesse o painel admin para criar grupos.</p>';
-            return;
-      }
-
-      // Sort: full groups last
-      var sorted = groups.slice().sort(function (a, b) {
-            if (a.status === 'full' && b.status !== 'full') return 1;
-            if (a.status !== 'full' && b.status === 'full') return -1;
-            return 0;
-      });
-
-      grid.innerHTML = sorted.map(createGroupCard).join('');
 }
 
 function createGroupCard(group) {
@@ -113,66 +74,46 @@ function createGroupCard(group) {
             ? '<button class="btn btn-sm btn-secondary" disabled style="opacity:0.5;cursor:not-allowed;">Lotado</button>'
             : '<button class="btn btn-sm btn-google" onclick="openCheckout(\'' + group.id + '\')">Entrar</button>';
 
-      // Photo or default icon
       var photoHtml = group.photo
             ? '<img src="' + group.photo + '" alt="' + (group.name || group.id) + '" class="plan-photo">'
             : '<div class="plan-icon">G</div>';
-
-      var groupName = group.name || 'Google One AI Premium';
 
       return '<div class="group-card animate-on-scroll">' +
             '<div class="group-card-header">' +
             '<span class="group-id">' + group.id + '</span>' +
             '<span class="group-status ' + statusClass[group.status] + '">' + statusLabels[group.status] + '</span>' +
             '</div>' +
-            '<div class="group-card-plan">' +
-            photoHtml +
-            '<div class="plan-info">' +
-            '<h4>' + groupName + '</h4>' +
-            '<span>2TB &middot; Gemini &middot; Flow &middot; VPN</span>' +
+            '<div class="group-card-plan">' + photoHtml +
+            '<div class="plan-info"><h4>' + (group.name || 'Google One AI Premium') + '</h4>' +
+            '<span>2TB &middot; Gemini &middot; Flow &middot; VPN</span></div>' +
             '</div>' +
-            '</div>' +
-            '<div class="group-card-slots">' +
-            '<div class="slots-bar">' + slots + '</div>' +
-            '<span class="slots-text">' + slotsText + '</span>' +
-            '</div>' +
+            '<div class="group-card-slots"><div class="slots-bar">' + slots + '</div>' +
+            '<span class="slots-text">' + slotsText + '</span></div>' +
             '<div class="group-card-footer">' +
             '<div class="group-price">R$ ' + price.toFixed(2).replace('.', ',') + ' <span>/mes</span></div>' +
-            footerBtn +
-            '</div>' +
-            '</div>';
+            footerBtn + '</div></div>';
 }
 
-// ===== CHECKOUT FLOW =====
+// ===== CHECKOUT =====
 function openCheckout(groupId) {
-      // Find group from admin data or fallback
-      var adminGroups = getAdminGroups();
-      var members = getAdminMembers();
+      fetch('/api/groups.php')
+            .then(function (r) { return r.json(); })
+            .then(function (groups) {
+                  var g = groups.find(function (x) { return x.id === groupId; });
+                  currentGroup = g ? { id: g.id, name: g.name, paymentLink: g.link, price: g.price } : { id: groupId, paymentLink: '' };
+                  showCheckoutModal();
+            })
+            .catch(function () {
+                  currentGroup = { id: groupId, paymentLink: '' };
+                  showCheckoutModal();
+            });
+}
 
-      if (adminGroups) {
-            var ag = adminGroups.find(function (g) { return g.id === groupId; });
-            if (ag) {
-                  currentGroup = {
-                        id: ag.id,
-                        name: ag.name,
-                        paymentLink: ag.link || 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra',
-                        price: ag.price || 101.50
-                  };
-            }
-      }
-      if (!currentGroup) {
-            currentGroup = (typeof GROUPS !== 'undefined')
-                  ? GROUPS.find(function (g) { return g.id === groupId; }) || { id: groupId, paymentLink: '' }
-                  : { id: groupId, paymentLink: '' };
-      }
-
-      // Reset to step 1
+function showCheckoutModal() {
       showCheckoutStep(1);
-      document.getElementById('modal-group-name').textContent = currentGroup.name || groupId;
+      document.getElementById('modal-group-name').textContent = currentGroup.name || currentGroup.id;
       document.getElementById('checkout-modal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
-
-      // Clear fields
       document.getElementById('lead-name').value = '';
       document.getElementById('lead-phone').value = '';
       document.getElementById('lead-email').value = '';
@@ -190,40 +131,25 @@ function showCheckoutStep(step) {
             var el = document.getElementById('step-' + i);
             if (el) el.style.display = i === step ? 'block' : 'none';
             var dot = document.getElementById('dot-' + i);
-            if (dot) {
-                  dot.className = 'step-dot' + (i === step ? ' active' : (i < step ? ' done' : ''));
-            }
+            if (dot) dot.className = 'step-dot' + (i === step ? ' active' : (i < step ? ' done' : ''));
       }
 }
 
 function goToStep2() {
       var phone = document.getElementById('lead-phone').value.trim();
       var email = document.getElementById('lead-email').value.trim();
-      var errEl = document.getElementById('step1-error');
+      if (!phone || !email) { document.getElementById('step1-error').style.display = 'block'; return; }
+      document.getElementById('step1-error').style.display = 'none';
 
-      if (!phone || !email) {
-            errEl.style.display = 'block';
-            return;
-      }
-      errEl.style.display = 'none';
-
-      // Fill summary
       document.getElementById('summary-group').textContent = currentGroup ? (currentGroup.name || currentGroup.id) : '';
       document.getElementById('summary-phone').textContent = '+55 ' + phone;
       document.getElementById('summary-email').textContent = email;
-
-      // Set payment link
-      var payLink = (currentGroup && currentGroup.paymentLink && currentGroup.paymentLink !== '#checkout')
-            ? currentGroup.paymentLink
-            : 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra';
+      var payLink = (currentGroup && currentGroup.paymentLink) ? currentGroup.paymentLink : 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra';
       document.getElementById('payment-link-btn').href = payLink;
-
       showCheckoutStep(2);
 }
 
-function backToStep1() {
-      showCheckoutStep(1);
-}
+function backToStep1() { showCheckoutStep(1); }
 
 function saveLeadBeforePayment() {
       var name = document.getElementById('lead-name').value.trim();
@@ -231,89 +157,53 @@ function saveLeadBeforePayment() {
       var email = document.getElementById('lead-email').value.trim();
       var groupId = currentGroup ? currentGroup.id : '';
       var groupName = currentGroup ? (currentGroup.name || currentGroup.id) : '';
-      var now = new Date().toISOString();
 
-      // 1) Save lead for admin panel
-      var leads = JSON.parse(localStorage.getItem('rateios_leads') || '[]');
-      leads.push({
-            name: name,
-            phone: phone,
-            email: email,
-            group: groupId,
-            date: now
-      });
-      localStorage.setItem('rateios_leads', JSON.stringify(leads));
+      // Save lead + order via API
+      fetch('/api/leads.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name, phone: phone, email: email, group: groupId })
+      }).catch(function () { });
 
-      // 2) Save order for conta.html (customer account)
-      var orders = JSON.parse(localStorage.getItem('rateios_orders') || '[]');
-      var orderId = 'PED-' + Date.now().toString(36).toUpperCase();
-      orders.push({
-            orderId: orderId,
-            name: name,
-            phone: phone,
-            email: email,
-            group: groupId,
-            groupName: groupName,
-            status: 'pendente',
-            date: now,
-            guaranteeEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-      });
-      localStorage.setItem('rateios_orders', JSON.stringify(orders));
+      fetch('/api/orders.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name, phone: phone, email: email, group: groupId, groupName: groupName, days: 30 })
+      }).catch(function () { });
 
-      // 3) Save current user email for conta.html login
+      // Save email for conta.html
       localStorage.setItem('rateios_user_email', email);
       localStorage.setItem('rateios_user_name', name);
 
-      // 4) Update confirm screen
       document.getElementById('confirm-phone').textContent = '+55 ' + phone;
-
-      // 5) Show step 3 after brief delay (link opens in new tab)
-      setTimeout(function () {
-            showCheckoutStep(3);
-      }, 800);
+      setTimeout(function () { showCheckoutStep(3); }, 800);
 }
 
 // ===== FAQ =====
 function renderFAQ() {
       var list = document.getElementById('faq-list');
-      if (!list) return;
+      if (!list || typeof FAQS === 'undefined') return;
       list.innerHTML = FAQS.map(function (faq, i) {
-            return '<div class="faq-item">' +
-                  '<button class="faq-question" onclick="toggleFAQ(' + i + ')">' +
-                  '<span>' + faq.question + '</span>' +
-                  '<span class="faq-icon">' +
-                  '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>' +
-                  '</span>' +
-                  '</button>' +
-                  '<div class="faq-answer">' +
-                  '<p class="faq-answer-inner">' + faq.answer + '</p>' +
-                  '</div>' +
-                  '</div>';
+            return '<div class="faq-item"><button class="faq-question" onclick="toggleFAQ(' + i + ')"><span>' + faq.question + '</span>' +
+                  '<span class="faq-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></span></button>' +
+                  '<div class="faq-answer"><p class="faq-answer-inner">' + faq.answer + '</p></div></div>';
       }).join('');
 }
 
 function toggleFAQ(index) {
-      var items = document.querySelectorAll('.faq-item');
-      items.forEach(function (item, i) {
-            if (i === index) { item.classList.toggle('active'); }
-            else { item.classList.remove('active'); }
+      document.querySelectorAll('.faq-item').forEach(function (item, i) {
+            if (i === index) item.classList.toggle('active');
+            else item.classList.remove('active');
       });
 }
 
-// ===== SCROLL ANIMATIONS =====
 function initScrollAnimations() {
       var observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
-                  if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                  }
+                  if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
             });
       }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-      document.querySelectorAll('.animate-on-scroll').forEach(function (el) {
-            observer.observe(el);
-      });
+      document.querySelectorAll('.animate-on-scroll').forEach(function (el) { observer.observe(el); });
 }
 
 function initSmoothScroll() {
@@ -322,11 +212,7 @@ function initSmoothScroll() {
                   var id = link.getAttribute('href');
                   if (!id || id === '#') return;
                   var target = document.querySelector(id);
-                  if (target) {
-                        e.preventDefault();
-                        var top = target.getBoundingClientRect().top + window.scrollY - 80;
-                        window.scrollTo({ top: top, behavior: 'smooth' });
-                  }
+                  if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); }
             });
       });
 }
