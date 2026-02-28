@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta - Rateios.pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/conta.css">
+</head>
+
+<body class="conta-body">
+
+    <!-- LOGIN -->
+    <div id="conta-login" class="conta-login-screen">
+        <div class="conta-login-card">
+            <a href="index.html" class="conta-brand">
+                <div class="logo-dots">
+                    <span class="dot dot-blue"></span>
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                Rateios<span style="color:var(--g-blue);">.pro</span>
+            </a>
+            <h2 style="margin-bottom:6px;">Minha Conta</h2>
+            <p style="color:var(--gray-500);margin-bottom:32px;font-size:0.9rem;">Acompanhe sua assinatura e status</p>
+
+            <div id="login-tabs"
+                style="display:flex;gap:0;margin-bottom:24px;border:1px solid #E8EAED;border-radius:10px;overflow:hidden;">
+                <button class="tab-btn active" onclick="switchTab('email')" id="tab-email">Por e-mail</button>
+                <button class="tab-btn" onclick="switchTab('pedido')" id="tab-pedido">Por pedido</button>
+            </div>
+
+            <div id="tab-email-form">
+                <div class="form-group">
+                    <label class="form-label">Seu e-mail Google</label>
+                    <input type="email" id="conta-email" class="form-input" placeholder="exemplo@gmail.com"
+                        onkeydown="if(event.key==='Enter')loginConta()">
+                </div>
+            </div>
+            <div id="tab-pedido-form" style="display:none;">
+                <div class="form-group">
+                    <label class="form-label">ID do pedido (enviado no WhatsApp)</label>
+                    <input type="text" id="conta-pedido" class="form-input" placeholder="Ex: GRP-001-003"
+                        onkeydown="if(event.key==='Enter')loginConta()">
+                </div>
+            </div>
+
+            <button class="btn btn-google btn-block" onclick="loginConta()">Acessar minha conta</button>
+            <p id="conta-error"
+                style="color:var(--g-red);text-align:center;font-size:0.85rem;margin-top:12px;display:none;">Dados nao
+                encontrados. Verifique e tente novamente.</p>
+
+            <div style="text-align:center;margin-top:20px;">
+                <p style="font-size:0.8rem;color:var(--gray-500);">Problemas para acessar? <a href="#"
+                        onclick="openWhatsApp()" style="color:var(--g-blue);font-weight:500;">Fale no WhatsApp</a></p>
+                <a href="index.html"
+                    style="font-size:0.85rem;color:var(--gray-500);display:block;margin-top:8px;">&larr; Voltar ao
+                    inicio</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAINEL DO CLIENTE -->
+    <div id="conta-painel" style="display:none;">
+        <nav class="conta-nav">
+            <a href="index.html" class="conta-brand" style="font-size:1.1rem;">
+                <div class="logo-dots">
+                    <span class="dot dot-blue"></span>
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                Rateios<span style="color:var(--g-blue);">.pro</span>
+            </a>
+            <div style="display:flex;align-items:center;gap:16px;">
+                <span id="conta-username" style="font-size:0.9rem;color:var(--gray-600);"></span>
+                <button onclick="logoutConta()" class="btn btn-sm btn-secondary">Sair</button>
+            </div>
+        </nav>
+
+        <div class="conta-content">
+
+            <!-- STATUS DA ASSINATURA -->
+            <div class="conta-card status-card">
+                <div class="status-header">
+                    <div class="status-icon-wrap green-bg">
+                        <span style="font-size:1.5rem;">&#10003;</span>
+                    </div>
+                    <div>
+                        <h2 style="font-size:1.4rem;">Assinatura ativa</h2>
+                        <p>Seu acesso ao Google One AI Premium esta ativo.</p>
+                    </div>
+                    <div class="status-badge-wrap">
+                        <span class="status-live-badge"><span class="pulse"></span> Ativo</span>
+                    </div>
+                </div>
+                <div class="status-details">
+                    <div class="status-detail-item">
+                        <span class="detail-label">Plano</span>
+                        <span class="detail-value">Google One AI Premium</span>
+                    </div>
+                    <div class="status-detail-item">
+                        <span class="detail-label">Grupo</span>
+                        <span class="detail-value" id="conta-grupo">GRP-001</span>
+                    </div>
+                    <div class="status-detail-item">
+                        <span class="detail-label">Valor mensal</span>
+                        <span class="detail-value" style="color:var(--g-green);font-weight:600;">R$ 101,50</span>
+                    </div>
+                    <div class="status-detail-item">
+                        <span class="detail-label">Proximo vencimento</span>
+                        <span class="detail-value" id="conta-vencimento">20/03/2026</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BENEFICIOS ATIVOS -->
+            <div class="conta-card">
+                <h3 style="margin-bottom:20px;">Seus beneficios ativos</h3>
+                <div class="beneficios-ativos">
+                    <div class="beneficio-item active">
+                        <span class="beneficio-check">&#10003;</span>
+                        <div>
+                            <strong>Flow ilimitado</strong>
+                            <span>Sem restricoes de uso</span>
+                        </div>
+                    </div>
+                    <div class="beneficio-item active">
+                        <span class="beneficio-check">&#10003;</span>
+                        <div>
+                            <strong>Gemini Advanced</strong>
+                            <span>Modelo Ultra ativado</span>
+                        </div>
+                    </div>
+                    <div class="beneficio-item active">
+                        <span class="beneficio-check">&#10003;</span>
+                        <div>
+                            <strong>2 TB de armazenamento</strong>
+                            <span>Drive, Gmail e Fotos</span>
+                        </div>
+                    </div>
+                    <div class="beneficio-item active">
+                        <span class="beneficio-check">&#10003;</span>
+                        <div>
+                            <strong>VPN do Google One</strong>
+                            <span>Ativa na sua conta</span>
+                        </div>
+                    </div>
+                    <div class="beneficio-item active">
+                        <span class="beneficio-check">&#10003;</span>
+                        <div>
+                            <strong>Conta 100% privada</strong>
+                            <span>Seus dados so seus</span>
+                        </div>
+                    </div>
+                    <div class="beneficio-item active">
+                        <span class="beneficio-check">&#10003;</span>
+                        <div>
+                            <strong>Garantia de 30 dias</strong>
+                            <span>Devolucao sem perguntas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HISTORICO DE PEDIDOS -->
+            <div class="conta-card">
+                <h3 style="margin-bottom:20px;">Historico de pagamentos</h3>
+                <div id="conta-historico">
+                    <div class="pedido-item">
+                        <div class="pedido-info">
+                            <span class="pedido-id">#PAY-001</span>
+                            <span class="pedido-desc">Google One AI Premium &mdash; Fevereiro 2026</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="font-weight:600;">R$ 101,50</span>
+                            <span class="badge badge-green">Pago</span>
+                        </div>
+                    </div>
+                    <div class="pedido-item">
+                        <div class="pedido-info">
+                            <span class="pedido-id">#PAY-000</span>
+                            <span class="pedido-desc">Google One AI Premium &mdash; Janeiro 2026</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="font-weight:600;">R$ 101,50</span>
+                            <span class="badge badge-green">Pago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUPORTE -->
+            <div class="conta-card suporte-card">
+                <div style="display:flex;align-items:center;gap:16px;">
+                    <div class="stat-icon green-bg" style="font-size:1.4rem;">&#128172;</div>
+                    <div>
+                        <h3 style="margin-bottom:4px;">Precisa de ajuda?</h3>
+                        <p style="font-size:0.9rem;">Suporte dedicado via WhatsApp, respondemos em minutos.</p>
+                    </div>
+                    <button class="btn btn-google" onclick="openWhatsApp()" style="margin-left:auto;">Chamar no
+                        WhatsApp</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/conta.js"></script>
+</body>
+
+</html>

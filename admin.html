@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Rateios.pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body class="admin-body">
+
+    <!-- LOGIN SCREEN -->
+    <div id="admin-login" class="admin-login-screen">
+        <div class="admin-login-card">
+            <div class="admin-login-logo">
+                <div class="logo-dots">
+                    <span class="dot dot-blue"></span>
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                <span>Rateios<span style="color:var(--g-blue);">.pro</span> Admin</span>
+            </div>
+            <h2 style="text-align:center;margin-bottom:8px;">Painel Administrativo</h2>
+            <p style="text-align:center;color:var(--gray-500);margin-bottom:32px;font-size:0.9rem;">Acesso restrito ao
+                administrador</p>
+            <div class="form-group">
+                <label class="form-label">Senha de acesso</label>
+                <input type="password" id="admin-password" class="form-input" placeholder="Digite a senha..."
+                    onkeydown="if(event.key==='Enter')loginAdmin()">
+            </div>
+            <button class="btn btn-google btn-block" onclick="loginAdmin()" style="margin-top:8px;">Entrar no
+                painel</button>
+            <p id="login-error"
+                style="color:var(--g-red);text-align:center;font-size:0.85rem;margin-top:12px;display:none;">Senha
+                incorreta. Tente novamente.</p>
+            <div style="text-align:center;margin-top:20px;">
+                <a href="index.html" style="font-size:0.85rem;color:var(--gray-500);">&larr; Voltar ao site</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel" style="display:none;">
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-logo">
+                <div class="logo-dots">
+                    <span class="dot dot-blue"></span>
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                <span>Rateios<span style="color:var(--g-blue);">.pro</span></span>
+            </div>
+            <nav class="admin-nav">
+                <a href="#" class="admin-nav-item active" onclick="showSection('dashboard')">
+                    <span class="nav-icon">&#9672;</span> Dashboard
+                </a>
+                <a href="#" class="admin-nav-item" onclick="showSection('grupos')">
+                    <span class="nav-icon">&#9781;</span> Grupos
+                </a>
+                <a href="#" class="admin-nav-item" onclick="showSection('membros')">
+                    <span class="nav-icon">&#128100;</span> Membros
+                </a>
+                <a href="#" class="admin-nav-item" onclick="showSection('pagamentos')">
+                    <span class="nav-icon">&#128176;</span> Pagamentos
+                </a>
+                <a href="#" class="admin-nav-item" onclick="showSection('whatsapp')">
+                    <span class="nav-icon">&#128172;</span> WhatsApp
+                </a>
+            </nav>
+            <div class="admin-sidebar-footer">
+                <a href="index.html" style="font-size:0.8rem;color:var(--gray-400);">&#8592; Ver site</a>
+                <button onclick="logoutAdmin()"
+                    style="font-size:0.8rem;color:var(--gray-400);background:none;border:none;cursor:pointer;">Sair</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+
+            <!-- TOPBAR -->
+            <div class="admin-topbar">
+                <div>
+                    <h1 class="admin-page-title" id="page-title">Dashboard</h1>
+                    <p class="admin-page-sub" id="page-sub">Visao geral dos grupos e receita</p>
+                </div>
+                <div class="admin-topbar-actions">
+                    <button class="btn btn-sm btn-google" onclick="showSection('grupos');openNewGroupModal()">+ Novo
+                        Grupo</button>
+                </div>
+            </div>
+
+            <!-- DASHBOARD -->
+            <div id="section-dashboard" class="admin-section">
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon blue-bg">&#9781;</div>
+                        <div>
+                            <div class="stat-value" id="stat-grupos">6</div>
+                            <div class="stat-label">Grupos ativos</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green-bg">&#128100;</div>
+                        <div>
+                            <div class="stat-value" id="stat-membros">21</div>
+                            <div class="stat-label">Membros totais</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon yellow-bg">&#128176;</div>
+                        <div>
+                            <div class="stat-value" id="stat-receita">R$ 2.131,50</div>
+                            <div class="stat-label">Receita mensal</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red-bg">&#128683;</div>
+                        <div>
+                            <div class="stat-value" id="stat-vagas">15</div>
+                            <div class="stat-label">Vagas abertas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Grupos - Visao geral</h3>
+                        <button class="btn btn-sm btn-secondary" onclick="showSection('grupos')">Ver todos</button>
+                    </div>
+                    <div id="dashboard-groups-list"></div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Notificacoes pendentes</h3>
+                    </div>
+                    <div class="notification-list" id="notification-list">
+                        <div class="notification-item">
+                            <span class="notif-dot green"></span>
+                            <div>
+                                <p><strong>GRP-002</strong> esta quase cheio &mdash; 5/6 membros</p>
+                                <span class="notif-time">Agora</span>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <span class="notif-dot blue"></span>
+                            <div>
+                                <p>Novo pagamento confirmado &mdash; GRP-001</p>
+                                <span class="notif-time">Hoje, 14:32</span>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <span class="notif-dot yellow"></span>
+                            <div>
+                                <p><strong>GRP-004</strong> fechou &mdash; 6/6 membros. Envie os convites!</p>
+                                <span class="notif-time">Hoje, 12:10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRUPOS -->
+            <div id="section-grupos" class="admin-section" style="display:none;">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Gerenciar Grupos</h3>
+                        <button class="btn btn-sm btn-google" onclick="openNewGroupModal()">+ Novo Grupo</button>
+                    </div>
+                    <div id="admin-groups-table"></div>
+                </div>
+            </div>
+
+            <!-- MEMBROS -->
+            <div id="section-membros" class="admin-section" style="display:none;">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Membros cadastrados</h3>
+                    </div>
+                    <div id="admin-members-table"></div>
+                </div>
+            </div>
+
+            <!-- PAGAMENTOS -->
+            <div id="section-pagamentos" class="admin-section" style="display:none;">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Historico de Pagamentos</h3>
+                    </div>
+                    <div id="admin-payments-table"></div>
+                </div>
+            </div>
+
+            <!-- WHATSAPP -->
+            <div id="section-whatsapp" class="admin-section" style="display:none;">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Links de Notificacao WhatsApp</h3>
+                    </div>
+                    <div id="admin-whatsapp-links"></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL NOVO GRUPO -->
+    <div id="modal-novo-grupo" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Novo Grupo</h3>
+                <button onclick="closeNewGroupModal()"
+                    style="width:32px;height:32px;border-radius:50%;border:none;background:#F1F3F4;cursor:pointer;">x</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Nome do grupo</label>
+                <input type="text" id="new-group-name" class="form-input" placeholder="Ex: GRP-007">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Link de pagamento (Dias Marketplace)</label>
+                <input type="url" id="new-group-link" class="form-input"
+                    placeholder="https://pay.diasmarketplace.com.br/...">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Vagas totais</label>
+                <select id="new-group-slots" class="form-input">
+                    <option value="6">6 pessoas (padrao)</option>
+                    <option value="5">5 pessoas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Foto do grupo (URL opcional)</label>
+                <input type="url" id="new-group-photo" class="form-input" placeholder="https://...">
+            </div>
+            <div style="display:flex;gap:12px;margin-top:8px;">
+                <button class="btn btn-secondary btn-block" onclick="closeNewGroupModal()">Cancelar</button>
+                <button class="btn btn-google btn-block" onclick="createGroup()">Criar grupo</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
