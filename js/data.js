@@ -1,0 +1,1 @@
+const PLAN = { name: 'Google One AI Premium', shortName: 'Ultra', storage: '2 TB', priceTotal: 609.00, pricePerPerson: 101.50, maxMembers: 6, features: [ { icon: 'IA', title: 'Gemini Advanced', desc: 'IA mais poderosa do Google com acesso ao modelo Ultra' }, { icon: 'HD', title: '2 TB de armazenamento', desc: 'Espa
