@@ -225,29 +225,52 @@ function backToStep1() {
       showCheckoutStep(1);
 }
 
-function saveLeadAndRedirect() {
+function saveLeadBeforePayment() {
       var name = document.getElementById('lead-name').value.trim();
       var phone = document.getElementById('lead-phone').value.trim();
       var email = document.getElementById('lead-email').value.trim();
       var groupId = currentGroup ? currentGroup.id : '';
+      var groupName = currentGroup ? (currentGroup.name || currentGroup.id) : '';
+      var now = new Date().toISOString();
 
-      // Save lead to localStorage
+      // 1) Save lead for admin panel
       var leads = JSON.parse(localStorage.getItem('rateios_leads') || '[]');
       leads.push({
             name: name,
             phone: phone,
             email: email,
             group: groupId,
-            date: new Date().toISOString()
+            date: now
       });
       localStorage.setItem('rateios_leads', JSON.stringify(leads));
 
-      // Update confirm screen
+      // 2) Save order for conta.html (customer account)
+      var orders = JSON.parse(localStorage.getItem('rateios_orders') || '[]');
+      var orderId = 'PED-' + Date.now().toString(36).toUpperCase();
+      orders.push({
+            orderId: orderId,
+            name: name,
+            phone: phone,
+            email: email,
+            group: groupId,
+            groupName: groupName,
+            status: 'pendente',
+            date: now,
+            guaranteeEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+      });
+      localStorage.setItem('rateios_orders', JSON.stringify(orders));
+
+      // 3) Save current user email for conta.html login
+      localStorage.setItem('rateios_user_email', email);
+      localStorage.setItem('rateios_user_name', name);
+
+      // 4) Update confirm screen
       document.getElementById('confirm-phone').textContent = '+55 ' + phone;
 
+      // 5) Show step 3 after brief delay (link opens in new tab)
       setTimeout(function () {
             showCheckoutStep(3);
-      }, 500);
+      }, 800);
 }
 
 // ===== FAQ =====

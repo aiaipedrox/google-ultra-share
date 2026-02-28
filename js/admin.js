@@ -150,13 +150,28 @@ function renderMembers() {
         var initials = (m.name || '??').split(' ').map(function (n) { return n[0]; }).join('').substring(0, 2).toUpperCase();
         var color = COLORS[i % COLORS.length];
 
+        // Calculate 30-day guarantee timer
+        var daysLeft = 30;
+        if (m.date) {
+            var startDate = new Date(m.date);
+            var endDate = new Date(startDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+            var now = new Date();
+            daysLeft = Math.ceil((endDate - now) / (24 * 60 * 60 * 1000));
+            if (daysLeft < 0) daysLeft = 0;
+        }
+        var timerClass = daysLeft > 15 ? 'timer-ok' : (daysLeft > 5 ? 'timer-warn' : 'timer-danger');
+        var timerText = daysLeft > 0 ? daysLeft + 'd' : 'Expirado';
+
         return '<div class="item-card" onclick="editMember(\'' + m.id + '\')">' +
             '<div class="card-avatar ' + color + '">' + initials + '</div>' +
             '<div class="card-info">' +
             '<div class="card-title">' + m.name + '</div>' +
             '<div class="card-sub">' + m.phone + ' &middot; ' + m.group + '</div>' +
             '</div>' +
+            '<div class="card-right">' +
+            '<span class="card-timer ' + timerClass + '">' + timerText + '</span>' +
             '<span class="card-badge badge-' + m.status + '">' + m.status + '</span>' +
+            '</div>' +
             '</div>';
     }).join('');
 }
