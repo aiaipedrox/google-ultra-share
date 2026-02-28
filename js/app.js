@@ -1,3 +1,6 @@
+// Current group for checkout
+var currentGroup = null;
+
 document.addEventListener('DOMContentLoaded', function () {
       initNavbar();
       renderGroups();
@@ -29,6 +32,7 @@ function initNavbar() {
       });
 }
 
+// ===== GROUPS =====
 function renderGroups() {
       var grid = document.getElementById('groups-grid');
       if (!grid) return;
@@ -48,22 +52,19 @@ function createGroupCard(group) {
 
       var statusLabels = { open: 'Vagas abertas', almost: 'Quase lotado', full: 'Lotado' };
       var statusClass = { open: 'status-open', almost: 'status-almost', full: 'status-full' };
-      var statusDot = { open: 'o', almost: '!', full: 'x' };
 
       var slots = '';
       for (var i = 0; i < group.totalSlots; i++) {
             slots += '<div class="slot' + (i < group.filledSlots ? ' filled' : '') + '"></div>';
       }
 
-      var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(WHATSAPP_MESSAGE(group.id));
-
       var slotsText = isFull
             ? 'Grupo completo'
-            : '<strong>' + group.filledSlots + '/' + group.totalSlots + '</strong> membros &mdash; ' + available + ' vaga' + (available > 1 ? 's' : '') + ' livre' + (available > 1 ? 's' : '');
+            : '<strong>' + group.filledSlots + '/' + group.totalSlots + '</strong> &mdash; ' + available + ' vaga' + (available !== 1 ? 's' : '') + ' livre' + (available !== 1 ? 's' : '');
 
       var footerBtn = isFull
-            ? '<button class="btn btn-sm btn-secondary" disabled>Lotado</button>'
-            : '<a href="' + whatsappUrl + '" class="btn btn-sm btn-google" onclick="handleJoinGroup(event, \'' + group.id + '\')">Entrar</a>';
+            ? '<button class="btn btn-sm btn-secondary" disabled style="opacity:0.5;cursor:not-allowed;">Lotado</button>'
+            : '<button class="btn btn-sm btn-google" onclick="openCheckout(\'' + group.id + '\')">Entrar</button>';
 
       return '<div class="group-card animate-on-scroll">' +
             '<div class="group-card-header">' +
@@ -74,7 +75,7 @@ function createGroupCard(group) {
             '<div class="plan-icon">G</div>' +
             '<div class="plan-info">' +
             '<h4>Google One AI Premium</h4>' +
-            '<span>2 TB &middot; Gemini &middot; Flow &middot; VPN</span>' +
+            '<span>2TB &middot; Gemini &middot; Flow &middot; VPN</span>' +
             '</div>' +
             '</div>' +
             '<div class="group-card-slots">' +
@@ -88,52 +89,95 @@ function createGroupCard(group) {
             '</div>';
 }
 
-function handleJoinGroup(event, groupId) {
-      event.preventDefault();
-      var whatsappUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(WHATSAPP_MESSAGE(groupId));
-      showModal(
-            'Entrar no grupo ' + groupId,
-            '<div style="text-align:center;">' +
-            '<p style="margin-bottom:16px;">Voce vai pagar <strong>R$ 101,50/mes</strong> para fazer parte deste grupo familiar do Google Ultra.</p>' +
-            '<p style="margin-bottom:24px;font-size:0.9rem;color:#5F6368;">Apos o pagamento, envie seu <strong>e-mail Google</strong> via WhatsApp para receber o convite do grupo familiar.</p>' +
-            '<a href="' + whatsappUrl + '" target="_blank" class="btn btn-google btn-block" style="margin-bottom:12px;">Pagar e enviar e-mail via WhatsApp</a>' +
-            '<p style="font-size:0.75rem;color:#9AA0A6;">Pagamento seguro via Dias Marketplace</p>' +
-            '</div>'
-      );
-}
+// ===== CHECKOUT FLOW =====
+function openCheckout(groupId) {
+      currentGroup = GROUPS.find(function (g) { return g.id === groupId; }) || { id: groupId, paymentLink: '' };
 
-function showModal(title, content) {
-      var existing = document.querySelector('.modal-overlay');
-      if (existing) existing.remove();
-
-      var modal = document.createElement('div');
-      modal.className = 'modal-overlay';
-      modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;';
-
-      var box = document.createElement('div');
-      box.style.cssText = 'background:white;border-radius:20px;padding:32px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);';
-
-      var header = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #F1F3F4;">' +
-            '<h3 style="font-size:1.1rem;">' + title + '</h3>' +
-            '<button onclick="closeModal()" style="width:32px;height:32px;border-radius:50%;border:none;background:#F1F3F4;cursor:pointer;font-size:16px;">x</button>' +
-            '</div>';
-
-      box.innerHTML = header + '<div>' + content + '</div>';
-      modal.appendChild(box);
-      document.body.appendChild(modal);
+      // Reset to step 1
+      showCheckoutStep(1);
+      document.getElementById('modal-group-name').textContent = groupId;
+      document.getElementById('checkout-modal').style.display = 'flex';
       document.body.style.overflow = 'hidden';
 
-      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
-      document.addEventListener('keydown', function escHandler(e) {
-            if (e.key === 'Escape') { closeModal(); document.removeEventListener('keydown', escHandler); }
+      // Clear fields
+      document.getElementById('lead-name').value = '';
+      document.getElementById('lead-phone').value = '';
+      document.getElementById('lead-email').value = '';
+      document.getElementById('step1-error').style.display = 'none';
+}
+
+function closeCheckout() {
+      document.getElementById('checkout-modal').style.display = 'none';
+      document.body.style.overflow = '';
+}
+
+function showCheckoutStep(step) {
+      for (var i = 1; i <= 3; i++) {
+            var el = document.getElementById('step-' + i);
+            if (el) el.style.display = i === step ? 'block' : 'none';
+            var dot = document.getElementById('dot-' + i);
+            if (dot) {
+                  dot.className = 'step-dot' + (i === step ? ' active' : (i < step ? ' done' : ''));
+            }
+      }
+}
+
+function goToStep2() {
+      var phone = document.getElementById('lead-phone').value.trim();
+      var email = document.getElementById('lead-email').value.trim();
+      var errEl = document.getElementById('step1-error');
+
+      if (!phone || !email) {
+            errEl.style.display = 'block';
+            return;
+      }
+      errEl.style.display = 'none';
+
+      // Fill summary
+      document.getElementById('summary-group').textContent = currentGroup ? currentGroup.id : '';
+      document.getElementById('summary-phone').textContent = '+55 ' + phone;
+      document.getElementById('summary-email').textContent = email;
+
+      // Set payment link
+      var payLink = (currentGroup && currentGroup.paymentLink && currentGroup.paymentLink !== '#checkout')
+            ? currentGroup.paymentLink
+            : 'https://app.diasmarketplace.com.br'; // fallback
+      document.getElementById('payment-link-btn').href = payLink;
+
+      showCheckoutStep(2);
+}
+
+function backToStep1() {
+      showCheckoutStep(1);
+}
+
+function saveLeadAndRedirect() {
+      var name = document.getElementById('lead-name').value.trim();
+      var phone = document.getElementById('lead-phone').value.trim();
+      var email = document.getElementById('lead-email').value.trim();
+      var groupId = currentGroup ? currentGroup.id : '';
+
+      // Save lead to localStorage
+      var leads = JSON.parse(localStorage.getItem('rateios_leads') || '[]');
+      leads.push({
+            name: name,
+            phone: phone,
+            email: email,
+            group: groupId,
+            date: new Date().toISOString()
       });
+      localStorage.setItem('rateios_leads', JSON.stringify(leads));
+
+      // Update confirm screen
+      document.getElementById('confirm-phone').textContent = '+55 ' + phone;
+
+      // Show step 3 after a small delay
+      setTimeout(function () {
+            showCheckoutStep(3);
+      }, 500);
 }
 
-function closeModal() {
-      var modal = document.querySelector('.modal-overlay');
-      if (modal) { modal.remove(); document.body.style.overflow = ''; }
-}
-
+// ===== FAQ =====
 function renderFAQ() {
       var list = document.getElementById('faq-list');
       if (!list) return;
@@ -141,7 +185,9 @@ function renderFAQ() {
             return '<div class="faq-item">' +
                   '<button class="faq-question" onclick="toggleFAQ(' + i + ')">' +
                   '<span>' + faq.question + '</span>' +
-                  '<span class="icon">+</span>' +
+                  '<span class="faq-icon">' +
+                  '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>' +
+                  '</span>' +
                   '</button>' +
                   '<div class="faq-answer">' +
                   '<p class="faq-answer-inner">' + faq.answer + '</p>' +
@@ -158,6 +204,7 @@ function toggleFAQ(index) {
       });
 }
 
+// ===== SCROLL ANIMATIONS =====
 function initScrollAnimations() {
       var observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
@@ -177,10 +224,10 @@ function initSmoothScroll() {
       document.querySelectorAll('a[href^="#"]').forEach(function (link) {
             link.addEventListener('click', function (e) {
                   var id = link.getAttribute('href');
-                  if (id === '#' || id === '#checkout') return;
-                  e.preventDefault();
+                  if (!id || id === '#') return;
                   var target = document.querySelector(id);
                   if (target) {
+                        e.preventDefault();
                         var top = target.getBoundingClientRect().top + window.scrollY - 80;
                         window.scrollTo({ top: top, behavior: 'smooth' });
                   }
