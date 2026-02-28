@@ -9,12 +9,12 @@ var PLAN = {
 };
 
 var GROUPS = [
-  { id: 'GRP-001', filledSlots: 3, totalSlots: 6, status: 'open',   paymentLink: '#checkout' },
-  { id: 'GRP-002', filledSlots: 5, totalSlots: 6, status: 'almost', paymentLink: '#checkout' },
-  { id: 'GRP-003', filledSlots: 2, totalSlots: 6, status: 'open',   paymentLink: '#checkout' },
-  { id: 'GRP-004', filledSlots: 6, totalSlots: 6, status: 'full',   paymentLink: null },
-  { id: 'GRP-005', filledSlots: 1, totalSlots: 6, status: 'open',   paymentLink: '#checkout' },
-  { id: 'GRP-006', filledSlots: 4, totalSlots: 6, status: 'almost', paymentLink: '#checkout' }
+  { id: 'GRP-001', filledSlots: 3, totalSlots: 6, status: 'open', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' },
+  { id: 'GRP-002', filledSlots: 5, totalSlots: 6, status: 'almost', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' },
+  { id: 'GRP-003', filledSlots: 2, totalSlots: 6, status: 'open', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' },
+  { id: 'GRP-004', filledSlots: 6, totalSlots: 6, status: 'full', paymentLink: null },
+  { id: 'GRP-005', filledSlots: 1, totalSlots: 6, status: 'open', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' },
+  { id: 'GRP-006', filledSlots: 4, totalSlots: 6, status: 'almost', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' }
 ];
 
 var FAQS = [
@@ -51,6 +51,6 @@ var FAQS = [
 // CONFIGURE SEU NUMERO DO WHATSAPP AQUI
 // Formato: 55 + DDD + numero (ex: 5511999999999)
 var WHATSAPP_NUMBER = '5500000000000';
-var WHATSAPP_MESSAGE = function(groupId) {
+var WHATSAPP_MESSAGE = function (groupId) {
   return 'Ola! Acabei de pagar minha vaga no grupo ' + groupId + ' do Google Ultra. Meu e-mail Google e: ';
 };

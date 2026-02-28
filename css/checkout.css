@@ -610,6 +610,19 @@
     color: #202124;
 }
 
+/* ===== LOGO TEXT ===== */
+.logo-text {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    display: inline-flex;
+}
+
+.logo-text-footer {
+    font-size: 1.1rem;
+}
+
 /* ===== RESPONSIVE CHECKOUT ===== */
 @media (max-width: 600px) {
     .checkout-modal {
