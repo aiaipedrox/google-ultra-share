@@ -54,14 +54,6 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS orders (
     INDEX(email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-// Insert sample groups if empty
-$count = $pdo->query("SELECT COUNT(*) FROM `groups`")->fetchColumn();
-if ($count == 0) {
-    $stmt = $pdo->prepare("INSERT INTO `groups` (group_id, name, total_slots, price, payment_link) VALUES (?,?,?,?,?)");
-    $link = 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra';
-    $stmt->execute(['GRP-001', 'Familia Premium 01', 6, 101.50, $link]);
-    $stmt->execute(['GRP-002', 'Familia Premium 02', 6, 101.50, $link]);
-    $stmt->execute(['GRP-003', 'Familia Premium 03', 6, 101.50, $link]);
-}
+// No sample data — groups are created only via admin panel
 
 jsonResponse(['success' => true, 'message' => 'Tables created successfully']);

@@ -8,14 +8,8 @@ var PLAN = {
   maxMembers: 6
 };
 
-var GROUPS = [
-  { id: 'GRP-001', filledSlots: 3, totalSlots: 6, status: 'open', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' },
-  { id: 'GRP-002', filledSlots: 5, totalSlots: 6, status: 'almost', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' },
-  { id: 'GRP-003', filledSlots: 2, totalSlots: 6, status: 'open', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' },
-  { id: 'GRP-004', filledSlots: 6, totalSlots: 6, status: 'full', paymentLink: null },
-  { id: 'GRP-005', filledSlots: 1, totalSlots: 6, status: 'open', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' },
-  { id: 'GRP-006', filledSlots: 4, totalSlots: 6, status: 'almost', paymentLink: 'https://checkout.diasmarketplace.com.br/link/rateios-google-ultra' }
-];
+// GROUPS agora vem 100% da API (admin panel)
+var GROUPS = [];
 
 var FAQS = [
   {
