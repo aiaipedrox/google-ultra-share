@@ -4,10 +4,39 @@ var currentGroup = null;
 document.addEventListener('DOMContentLoaded', function () {
       initNavbar();
       renderGroups();
+      updateHeroCard();
       renderFAQ();
       initScrollAnimations();
       initSmoothScroll();
 });
+
+function updateHeroCard() {
+      fetch('/api/groups.php')
+            .then(function (r) { return r.json(); })
+            .then(function (groups) {
+                  var totalFilled = 0, totalSlots = 0;
+                  groups.forEach(function (g) { totalFilled += g.filledSlots; totalSlots += g.totalSlots; });
+                  var free = totalSlots - totalFilled;
+                  var slotsDiv = document.getElementById('hero-slots-visual');
+                  var slotsText = document.getElementById('hero-slots-text');
+                  if (slotsDiv && totalSlots > 0) {
+                        var dots = '';
+                        var show = Math.min(totalSlots, 6);
+                        var filledShow = Math.round((totalFilled / totalSlots) * show);
+                        for (var i = 0; i < show; i++) {
+                              dots += '<div class="slot-dot ' + (i < filledShow ? 'filled' : 'empty') + '"></div>';
+                        }
+                        slotsDiv.innerHTML = dots;
+                  }
+                  if (slotsText) {
+                        if (totalSlots === 0) {
+                              slotsText.innerHTML = 'Cadastre grupos no admin';
+                        } else {
+                              slotsText.innerHTML = totalFilled + '/' + totalSlots + ' membros &mdash; <strong>' + free + ' vaga' + (free !== 1 ? 's' : '') + ' livre' + (free !== 1 ? 's' : '') + '</strong>';
+                        }
+                  }
+            }).catch(function () { });
+}
 
 function initNavbar() {
       var toggle = document.getElementById('menu-toggle');
