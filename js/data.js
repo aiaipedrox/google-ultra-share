@@ -44,7 +44,7 @@ var FAQS = [
 
 // CONFIGURE SEU NUMERO DO WHATSAPP AQUI
 // Formato: 55 + DDD + numero (ex: 5511999999999)
-var WHATSAPP_NUMBER = '5500000000000';
+var WHATSAPP_NUMBER = '5573936180266';
 var WHATSAPP_MESSAGE = function (groupId) {
   return 'Ola! Acabei de pagar minha vaga no grupo ' + groupId + ' do Google Ultra. Meu e-mail Google e: ';
 };
