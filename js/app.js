@@ -205,7 +205,11 @@ function saveLeadBeforePayment() {
       localStorage.setItem('rateios_user_name', name);
 
       document.getElementById('confirm-phone').textContent = '+55 ' + phone;
-      setTimeout(function () { showCheckoutStep(3); }, 800);
+      setTimeout(function () { 
+            showCheckoutStep(3); 
+            var msg = encodeURIComponent("Acabei de fazer o pedido já está com status pago só liberar ele por e-mail ou pelo site mesmo");
+            window.location.href = "https://wa.me/5500000000000?text=" + msg;
+      }, 800);
 }
 
 // ===== FAQ =====

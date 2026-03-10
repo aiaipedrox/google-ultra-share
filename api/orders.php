@@ -22,6 +22,20 @@ if ($method === 'POST') {
         $input['days'] ?? 30
     ]);
     
+    // ENVIO DE E-MAIL
+    $to = 'admin@rateios.pro'; // Ajuste conforme necessario
+    $subject = 'Novo Pedido Google Ultra - ' . $orderId;
+    $message = "Novo pedido recebido:\n\n" .
+               "ID do Pedido: " . $orderId . "\n" .
+               "Nome: " . ($input['name'] ?? '') . "\n" .
+               "E-mail: " . ($input['email'] ?? '') . "\n" .
+               "WhatsApp: " . ($input['phone'] ?? '') . "\n" .
+               "Grupo Escolhido: " . ($input['groupName'] ?? '') . "\n";
+    $headers = "From: noreply@rateios.pro\r\n" .
+               "Reply-To: " . ($input['email'] ?? '') . "\r\n" .
+               "X-Mailer: PHP/" . phpversion();
+    @mail($to, $subject, $message, $headers);
+    
     jsonResponse(['success' => true, 'orderId' => $orderId], 201);
 }
 
