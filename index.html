@@ -17,6 +17,11 @@
 
 <body>
 
+  <!-- Animated backgrounds from maintenance page -->
+  <div class="bg-gradient"></div>
+  <div class="grid-overlay"></div>
+  <div class="particles" id="particles"></div>
+
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="container">
@@ -577,6 +582,21 @@
   <script src="js/data.js?v=3"></script>
   <script src="js/api.js?v=3"></script>
   <script src="js/app.js?v=3"></script>
+  <script>
+    // Create floating particles
+    var colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
+    var container = document.getElementById('particles');
+    for (var i = 0; i < 20; i++) {
+      var p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.animationDuration = (8 + Math.random() * 12) + 's';
+      p.style.animationDelay = Math.random() * 10 + 's';
+      p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+      if(container) container.appendChild(p);
+    }
+  </script>
 </body>
 
 </html>
