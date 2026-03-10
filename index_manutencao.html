@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Rateios.pro - Em manutenção. Voltamos em breve!">
+  <title>Rateios.pro - Em Manutenção</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a0f;
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated gradient background */
+    .bg-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(66, 133, 244, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(234, 67, 53, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(52, 168, 83, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(251, 188, 5, 0.08) 0%, transparent 50%);
+      animation: bgPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    /* Grid pattern overlay */
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+      max-width: 600px;
+    }
+
+    /* Logo */
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 48px;
+      display: inline-block;
+    }
+
+    .logo span {
+      display: inline-block;
+    }
+
+    /* Animated gear icon */
+    .gear-wrap {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .gear-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(66, 133, 244, 0.15), rgba(234, 67, 53, 0.15));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: gearSpin 6s linear infinite;
+      backdrop-filter: blur(10px);
+    }
+
+    @keyframes gearSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .gear-icon svg {
+      animation: gearCounterSpin 6s linear infinite;
+    }
+
+    @keyframes gearCounterSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(-360deg);
+      }
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #4285F4, #EA4335, #FBBC05, #34A853);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientFlow 4s ease-in-out infinite;
+    }
+
+    @keyframes gradientFlow {
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.6;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    /* Status card */
+    .status-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px 32px;
+      margin-bottom: 32px;
+      backdrop-filter: blur(20px);
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #FBBC05;
+      animation: statusPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes statusPulse {
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(251, 188, 5, 0.5);
+      }
+
+      50% {
+        opacity: 0.6;
+        box-shadow: 0 0 0 8px rgba(251, 188, 5, 0);
+      }
+    }
+
+    .status-text {
+      font-weight: 500;
+      color: #FBBC05;
+    }
+
+    /* Contact button */
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.25);
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.35);
+    }
+
+    .btn-conta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      margin-top: 16px;
+    }
+
+    .btn-conta:hover {
+      color: rgba(255, 255, 255, 0.8);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-note {
+      margin-top: 48px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.3;
+      }
+
+      90% {
+        opacity: 0.3;
+      }
+
+      100% {
+        transform: translateY(-20px) translateX(30px);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+      }
+
+      .gear-icon {
+        width: 64px;
+        height: 64px;
+      }
+
+      .status-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-gradient"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <div class="logo">
+      <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span
+        style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span
+        style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span
+        style="color:rgba(255,255,255,0.4)">.pro</span>
+    </div>
+
+    <div class="gear-wrap">
+      <div class="gear-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)">
+          <path
+            d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+        </svg>
+      </div>
+    </div>
+
+    <h1>Estamos em<br><span class="gradient-text">manutenção</span></h1>
+    <p class="subtitle">
+      Estamos fazendo melhorias para você ter uma experiência ainda melhor.
+      Voltamos em breve!
+    </p>
+
+    <div class="status-card">
+      <div class="status-row">
+        <span class="status-dot"></span>
+        <span class="status-text">Manutenção em andamento</span>
+      </div>
+    </div>
+
+    <a href="https://wa.me/5500000000000?text=Ola!%20Vi%20que%20o%20site%20esta%20em%20manutencao.%20Preciso%20de%20ajuda."
+      target="_blank" class="btn-whatsapp">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12c0 1.82.49 3.53 1.34 5l-1.34 5 5.16-1.34C8.56 21.52 10.22 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" />
+      </svg>
+      Falar no WhatsApp
+    </a>
+
+    <br>
+    <a href="conta.html" class="btn-conta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+      </svg>
+      Já sou membro — acessar minha conta
+    </a>
+
+    <p class="footer-note">&copy; 2026 Rateios.pro — Todos os direitos reservados</p>
+  </div>
+
+  <script>
+    // Create floating particles
+    var colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
+    var container = document.getElementById('particles');
+    for (var i = 0; i < 20; i++) {
+      var p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.animationDuration = (8 + Math.random() * 12) + 's';
+      p.style.animationDelay = Math.random() * 10 + 's';
+      p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+      container.appendChild(p);
+    }
+  </script>
+</body>
+
+</html>
