@@ -9,7 +9,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS `groups` (
     group_id VARCHAR(20) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
     total_slots INT DEFAULT 6,
-    price DECIMAL(10,2) DEFAULT 101.50,
+    price DECIMAL(10,2) DEFAULT 129.90,
     payment_link TEXT,
     photo LONGTEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

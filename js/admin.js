@@ -263,7 +263,7 @@ function populateGroupSelects(groups) {
 function addGroup() {
     var name = document.getElementById('new-group-name').value.trim() || 'Familia Premium';
     var slots = parseInt(document.getElementById('new-group-slots').value) || 6;
-    var price = parseFloat(document.getElementById('new-group-price').value) || 101.50;
+    var price = parseFloat(document.getElementById('new-group-price').value) || 129.90;
     var link = document.getElementById('new-group-link').value.trim();
     var photo = pendingPhotoData['new-group-photo-preview'] || null;
 
@@ -302,7 +302,7 @@ function saveGroup() {
         id: id,
         name: document.getElementById('edit-group-name').value.trim(),
         totalSlots: parseInt(document.getElementById('edit-group-slots').value) || 6,
-        price: parseFloat(document.getElementById('edit-group-price').value) || 101.50,
+        price: parseFloat(document.getElementById('edit-group-price').value) || 129.90,
         link: document.getElementById('edit-group-link').value.trim()
     };
     if (pendingPhotoData['edit-group-photo-preview']) data.photo = pendingPhotoData['edit-group-photo-preview'];

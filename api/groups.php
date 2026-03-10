@@ -45,7 +45,7 @@ if ($method === 'POST') {
         $groupId,
         $input['name'] ?? 'Familia Premium ' . str_pad($num, 2, '0', STR_PAD_LEFT),
         $input['totalSlots'] ?? 6,
-        $input['price'] ?? 101.50,
+        $input['price'] ?? 129.90,
         $input['link'] ?? '',
         $input['photo'] ?? null
     ]);

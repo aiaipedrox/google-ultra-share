@@ -3,8 +3,8 @@ var PLAN = {
   name: 'Google One AI Premium',
   shortName: 'Ultra',
   storage: '2 TB',
-  priceTotal: 609.00,
-  pricePerPerson: 101.50,
+  priceTotal: 779.40,
+  pricePerPerson: 129.90,
   maxMembers: 6
 };
 
@@ -14,7 +14,7 @@ var GROUPS = [];
 var FAQS = [
   {
     question: 'Como funciona o rateio do Google Ultra?',
-    answer: 'O Google One AI Premium permite adicionar ate 5 membros ao Grupo Familiar. Assim, 6 pessoas dividem o custo total de R$609/mes, ficando apenas R$101,50 por pessoa. Cada membro mantem seus arquivos 100% privados.'
+    answer: 'O Google One AI Premium permite adicionar ate 5 membros ao Grupo Familiar. O investimento e de R$129,90 por pessoa, incluindo R$ 29,90 referentes a taxa de administracao e seguranca, garantindo a organizacao dos grupos familiares sem quedas de conta.'
   },
   {
     question: 'Meus arquivos ficam visiveis para outros membros?',
@@ -30,11 +30,11 @@ var FAQS = [
   },
   {
     question: 'E se alguem sair do grupo?',
-    answer: 'Se um membro sair, a vaga e reaberta automaticamente para que outra pessoa possa entrar. O administrador gerencia as vagas e garante que o grupo esteja sempre ativo.'
+    answer: 'Se um membro sair, a vaga e reaberta automaticamente para que outra pessoa possa entrar. E para isso que serve nossa taxa de administracao: garantir que o grupo esteja sempre ativo e confiavel.'
   },
   {
     question: 'O pagamento e mensal?',
-    answer: 'Sim, o valor de R$101,50 e a sua parte mensal do plano Google One AI Premium. Voce recebera o link de pagamento todo mes para manter sua vaga no grupo.'
+    answer: 'Sim, o valor de R$129,90 e a sua assinatura mensal do plano Google One AI Premium com a taxa de administracao inclusa. Voce recebera o link de pagamento todo mes para manter sua vaga no grupo seguro.'
   },
   {
     question: 'E seguro?',

@@ -85,7 +85,7 @@ function renderGroups() {
 function createGroupCard(group) {
       var available = group.totalSlots - group.filledSlots;
       var isFull = group.status === 'full';
-      var price = group.price || 101.50;
+      var price = group.price || 129.90;
 
       var statusLabels = { open: 'Vagas abertas', almost: 'Quase lotado', full: 'Lotado' };
       var statusClass = { open: 'status-open', almost: 'status-almost', full: 'status-full' };

@@ -410,14 +410,9 @@ section {
   font-weight: 600;
 }
 
-.hero-card-members {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding: 14px;
-  background: var(--gray-50);
-  border-radius: var(--radius-md);
+.hero-card-members .info {
+  font-size: 0.85rem;
+  color: var(--gray-900);
 }
 
 .member-avatars {
@@ -1043,7 +1038,8 @@ section {
 
 /* ===== FOOTER ===== */
 .footer {
-  background: var(--gray-900);
+  background: transparent;
+  border-top: 1px solid var(--gray-100);
   color: var(--gray-400);
   padding: 32px 0;
 }
@@ -1103,7 +1099,7 @@ section {
 /* ===== BENEFIT HIGHLIGHT ===== */
 .benefit-highlight {
   border-color: var(--gray-300);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 249, 250, 1) 100%);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .benefit-highlight:hover {
