@@ -505,7 +505,7 @@
 }
 
 .slot-dot.empty {
-    background: #E8EAED;
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .hero-slots {
@@ -513,11 +513,12 @@
     align-items: center;
     gap: 12px;
     padding: 14px;
-    background: #F8F9FA;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     margin-bottom: 20px;
     font-size: 0.85rem;
-    color: #5F6368;
+    color: #E8EAED;
 }
 
 .slots-visual {
@@ -568,8 +569,8 @@
 
 /* ===== BENEFITS UPDATES ===== */
 .benefit-card.highlight {
-    background: linear-gradient(135deg, #FAFBFF, #F0F4FF);
-    border-color: rgba(66, 133, 244, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(66, 133, 244, 0.3);
 }
 
 .benefit-icon-wrap {
