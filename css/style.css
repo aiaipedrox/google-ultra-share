@@ -143,8 +143,9 @@ section {
   gap: 8px;
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--gray-900);
+  color: #E8EAED; /* Forçar branco no Dark Theme */
   flex-shrink: 0;
+  text-decoration: none;
 }
 
 .logo-img {
@@ -1203,6 +1204,45 @@ section {
 
   .pricing-card {
     padding: 32px 24px;
+  }
+
+  /* MATRIX HERO MOBILE */
+  .matrix-interactive-area {
+    aspect-ratio: 1 / 1; /* Quadrado no mobile pra caber tudo */
+    border-radius: 16px;
+  }
+
+  .matrix-bg-hacker {
+    transform: none; /* Desativa parallax no mobile */
+  }
+
+  .matrix-hands-layer {
+    transform: none; /* Desativa translateZ no mobile */
+  }
+
+  .pill-btn {
+    width: 22%;
+    height: 18%;
+    opacity: 0.7; /* Sempre visível no touch */
+  }
+
+  .pill-blue-overlay {
+    top: 50%;
+    left: 22%;
+  }
+
+  .pill-red-overlay {
+    top: 50%;
+    right: 22%;
+  }
+
+  .matrix-heading h1 {
+    font-size: 2rem;
+  }
+
+  .matrix-heading .hero-sub {
+    font-size: 0.95rem;
+    margin-bottom: 24px;
   }
 }
 
