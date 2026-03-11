@@ -70,7 +70,7 @@ function updateStats(groups, members, leads, orders) {
     var pendingOrders = orders.filter(function (o) { return o.status === 'pendente'; });
 
     document.getElementById('stat-groups').textContent = groups.length;
-    document.getElementById('stat-members').textContent = active.length;
+    document.getElementById('stat-members').textContent = active.length + ' / ' + members.length;
     document.getElementById('stat-slots').textContent = Math.max(0, free);
     document.getElementById('stat-leads').textContent = leads.length;
     document.getElementById('stat-orders').textContent = pendingOrders.length;
@@ -128,17 +128,36 @@ function renderMembersList(members) {
 
     list.innerHTML = filtered.map(function (m, i) {
         var initials = (m.name || '??').split(' ').map(function (n) { return n[0]; }).join('').substring(0, 2).toUpperCase();
-        var color = COLORS[i % COLORS.length];
         var dl = m.daysLeft !== undefined ? m.daysLeft : 30;
+        
+        // Status Colors & Labels
+        var statusColors = { 
+            ativo: 'green', 
+            pendente: 'gray', 
+            inativo: 'red' 
+        };
+        var statusLabels = {
+            ativo: 'Pagante',
+            pendente: 'Grátis',
+            inativo: 'Bloqueado'
+        };
+        
+        var badgeColor = statusColors[m.status] || 'gray';
+        var badgeLabel = statusLabels[m.status] || m.status;
+        var avatarColor = m.status === 'ativo' ? COLORS[i % COLORS.length] : 'gray';
+
         var timerClass = dl > 15 ? 'timer-ok' : (dl > 5 ? 'timer-warn' : 'timer-danger');
         var timerText = dl > 0 ? dl + 'd' : 'Exp';
+        
+        // Hide timer if not active
+        var timerHtml = m.status === 'ativo' ? '<span class="card-timer ' + timerClass + '">' + timerText + '</span>' : '';
 
         return '<div class="item-card" onclick="editMember(\'' + m.id + '\')">' +
-            '<div class="card-avatar ' + color + '">' + initials + '</div>' +
-            '<div class="card-info"><div class="card-title">' + m.name + '</div>' +
+            '<div class="card-avatar ' + avatarColor + '">' + initials + '</div>' +
+            '<div class="card-info"><div class="card-title" style="' + (m.status !== 'ativo' ? 'color:#9AA0A6;' : '') + '">' + m.name + '</div>' +
             '<div class="card-sub">' + m.phone + ' &middot; ' + m.group + '</div></div>' +
-            '<div class="card-right"><span class="card-timer ' + timerClass + '">' + timerText + '</span>' +
-            '<span class="card-badge badge-' + m.status + '">' + m.status + '</span></div></div>';
+            '<div class="card-right">' + timerHtml +
+            '<span class="card-badge badge-' + badgeColor + '" style="font-weight:600;">' + badgeLabel + '</span></div></div>';
     }).join('');
 }
 

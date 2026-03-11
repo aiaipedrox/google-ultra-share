@@ -10,53 +10,51 @@ var MEMBERS_DB = [
 ];
 
 var currentMember = null;
-var currentTab = 'email';
 
-function switchTab(tab) {
-    currentTab = tab;
-    document.getElementById('tab-email-form').style.display = tab === 'email' ? 'block' : 'none';
-    document.getElementById('tab-pedido-form').style.display = tab === 'pedido' ? 'block' : 'none';
-    document.getElementById('tab-email').classList.toggle('active', tab === 'email');
-    document.getElementById('tab-pedido').classList.toggle('active', tab === 'pedido');
-}
+// Bind to window so auth.js can call it after successful login
+window.showAccountPanel = function(userData) {
+    currentMember = userData;
 
-function loginConta() {
-    var member = null;
-
-    if (currentTab === 'email') {
-        var email = document.getElementById('conta-email').value.trim().toLowerCase();
-        member = MEMBERS_DB.find(function (m) { return m.email === email; });
-    } else {
-        var pedidoId = document.getElementById('conta-pedido').value.trim().toUpperCase();
-        // Accept format GRP-001 or GRP-001-003 etc
-        member = MEMBERS_DB.find(function (m) {
-            return pedidoId.indexOf(m.group) === 0;
-        });
-    }
-
-    if (member) {
-        currentMember = member;
-        showContaPainel(member);
-    } else {
-        document.getElementById('conta-error').style.display = 'block';
-    }
-}
-
-function showContaPainel(member) {
+    // Hide auth screen, show panel
     document.getElementById('conta-login').style.display = 'none';
     document.getElementById('conta-painel').style.display = 'block';
-    document.getElementById('conta-username').textContent = member.email || member.name;
-    document.getElementById('conta-grupo').textContent = member.group;
-    document.getElementById('conta-vencimento').textContent = member.nextBill;
-}
 
-function logoutConta() {
+    // Set UI elements
+    document.getElementById('conta-username').textContent = userData.name || userData.email;
+    
+    // Status badges logic
+    const statusBadges = document.querySelectorAll('.badge-green');
+    if (userData.status !== 'ativo') {
+        statusBadges.forEach(badge => {
+            badge.className = 'badge badge-gray';
+            badge.textContent = userData.status === 'pendente' ? 'Pendente' : 'Inativo';
+        });
+        
+        // Disable courses button if inactive
+        const btnCursos = document.querySelector('a[href="cursos.html"]');
+        if (btnCursos) {
+            btnCursos.style.pointerEvents = 'none';
+            btnCursos.style.opacity = '0.5';
+            btnCursos.textContent = 'Renove sua assinatura para acessar';
+        }
+    }
+};
+
+window.logoutConta = function() {
     currentMember = null;
+    localStorage.removeItem('user_auth_token');
+    localStorage.removeItem('user_data_profile');
+    
     document.getElementById('conta-login').style.display = 'flex';
     document.getElementById('conta-painel').style.display = 'none';
-    document.getElementById('conta-email').value = '';
-    document.getElementById('conta-error').style.display = 'none';
-}
+    
+    // reset form fields
+    const inputs = document.querySelectorAll('.form-input');
+    inputs.forEach(input => input.value = '');
+    
+    const errorMsg = document.getElementById('conta-error');
+    if (errorMsg) errorMsg.style.display = 'none';
+};
 
 function openWhatsApp() {
     var msg = 'Ola! Preciso de suporte com minha conta no Rateios.pro.';

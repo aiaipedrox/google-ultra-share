@@ -26,7 +26,9 @@
   <nav class="navbar" id="navbar">
     <div class="container">
       <a href="index.html" class="navbar-brand">
-        <img src="img/logohd.png" alt="Rateios.pro" class="logo-img">
+        <span style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">
+          <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span style="color:rgba(255,255,255,0.4)">.pro</span>
+        </span>
       </a>
       <div class="navbar-links" id="nav-links">
         <a href="#como-funciona">Como funciona</a>
@@ -51,77 +53,32 @@
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span class="pulse"></span>
-          Vagas abertas agora
-        </div>
-        <h1>Google Ultra por<br><span class="gradient-text">R$129,90</span>/mês.</h1>
-        <p class="hero-sub">Flow ilimitado, Gemini Advanced, 2TB e VPN &mdash; dividindo com mais 5 pessoas selecionadas.
-          <strong>Pague mais barato com segurança, estabilidade e sem quedas.</strong>
-        </p>
-        <div class="hero-actions">
-          <a href="#grupos" class="btn btn-primary btn-lg">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            Escolher grupo
-          </a>
-          <a href="#como-funciona" class="btn btn-ghost btn-lg">Como funciona</a>
-        </div>
-        <div class="hero-trust">
-          <span class="trust-pill">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="#34A853">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-            </svg>
-            Garantia 30 dias
-          </span>
-          <span class="trust-pill">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="#34A853">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-            </svg>
-            Conta privada
-          </span>
-          <span class="trust-pill">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="#34A853">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-            </svg>
-            Famílias Confiáveis
-          </span>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-card">
-          <div class="hero-card-stripe"></div>
-          <div class="hero-card-header">
-            <div class="g-icon"><span>G</span></div>
-            <div>
-              <h4>Google One AI Premium</h4>
-              <span>Grupo familiar &middot; ate 6 pessoas</span>
-            </div>
+      <!-- NEW MATRIX 3D HERO (The Two Pills) -->
+      <div class="matrix-hero-container">
+        
+        <div class="matrix-heading">
+          <div class="hero-badge" style="margin: 0 auto 24px;">
+            <span class="pulse"></span>
+            Rateios.pro V8
           </div>
-          <div class="hero-card-price">
-            <div class="original">De R$ 609,00/mês no Google</div>
-            <div class="per-person">R$ 129,90<span>/mês</span></div>
-            <div class="savings-badge">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="#34A853">
-                <path d="M7 14l5-5 5 5H7z" />
-              </svg>
-              Sua tranquilidade garantida
-            </div>
+          <h1>Faça a sua <span class="gradient-text">Escolha.</span></h1>
+          <p class="hero-sub" style="max-width:600px; margin: 0 auto; color: #9AA0A6;">
+            A pílula do <strong>Flow (Acesso Prático)</strong> ou a pílula do <strong>Conhecimento (Aulas)</strong>? 
+            Passe o mouse, sinta o efeito 3D e decida seu caminho.
+          </p>
+        <div class="matrix-interactive-area" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+          <img src="img/matrix_hacker_bg.png" alt="Matrix Hacker" class="matrix-bg-hacker">
+          <div class="matrix-hands-layer">
+            <img src="img/matrix_hands_pills.png" alt="Matrix Hands" class="matrix-img-hands">
+            <!-- Pílula Azul (Esquerda) -->
+            <a href="#grupos" class="pill-btn pill-blue-overlay">
+              <span class="pill-btn-hover">Flow</span>
+            </a>
+            <!-- Pílula Vermelha (Direita) -->
+            <a href="conta.html" class="pill-btn pill-red-overlay">
+              <span class="pill-btn-hover">Aulas</span>
+            </a>
           </div>
-          <div class="hero-slots" id="hero-slots">
-            <div class="slots-visual" id="hero-slots-visual">
-              <div class="slot-dot empty"></div>
-              <div class="slot-dot empty"></div>
-              <div class="slot-dot empty"></div>
-              <div class="slot-dot empty"></div>
-              <div class="slot-dot empty"></div>
-              <div class="slot-dot empty"></div>
-            </div>
-            <span id="hero-slots-text">Carregando...</span>
-          </div>
-          <a href="#grupos" class="btn btn-google btn-block">Quero minha vaga &rarr;</a>
         </div>
       </div>
     </div>
@@ -405,8 +362,10 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-brand">
-        <img src="img/logohd.png" alt="Rateios.pro" class="logo-img">
+      <div class="footer-brand" style="margin-bottom: 24px;">
+        <span style="font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px;">
+          <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span style="color:rgba(255,255,255,0.4)">.pro</span>
+        </span>
       </div>
       <div class="footer-links">
         <a href="#beneficios">Beneficios</a>
@@ -582,6 +541,10 @@
       if(container) container.appendChild(p);
     }
   </script>
+  
+  <!-- Vanilla Tilt (Matrix 3D Effect) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" integrity="sha512-wC/g5368cx-OEq1i2jG1HioG/B3+YmR19x0IeT/v8aIt6/Sht5wBupCIfC7aM+vFw/Q17GkE41QfFp+X3G0qxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
 </body>
 
 </html>

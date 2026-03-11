@@ -17,38 +17,57 @@
     <div id="conta-login" class="conta-login-screen">
         <div class="conta-login-card">
             <a href="index.html" class="conta-brand">
-                <img src="img/logohd.png" alt="Rateios.pro" class="logo-img">
+                <span style="font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px;">
+                  <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span style="color:rgba(255,255,255,0.4)">.pro</span>
+                </span>
             </a>
             <h2 style="margin-bottom:6px;">Minha Conta</h2>
             <p style="color:var(--gray-500);margin-bottom:32px;font-size:0.9rem;">Acompanhe sua assinatura e status</p>
 
-            <div id="login-tabs"
-                style="display:flex;gap:0;margin-bottom:24px;border:1px solid #E8EAED;border-radius:10px;overflow:hidden;">
-                <button class="tab-btn active" onclick="switchTab('email')" id="tab-email">Por e-mail</button>
-                <button class="tab-btn" onclick="switchTab('pedido')" id="tab-pedido">Por pedido</button>
-            </div>
-
-            <div id="tab-email-form">
+            <!-- AUTENTICACAO GERAL -->
+            <div id="auth-login-view">
                 <div class="form-group">
-                    <label class="form-label">Seu e-mail Google</label>
-                    <input type="email" id="conta-email" class="form-input" placeholder="exemplo@gmail.com"
-                        onkeydown="if(event.key==='Enter')loginConta()">
+                    <label class="form-label">E-mail</label>
+                    <input type="email" id="auth-login-email" class="form-input" placeholder="seu@email.com">
                 </div>
-            </div>
-            <div id="tab-pedido-form" style="display:none;">
                 <div class="form-group">
-                    <label class="form-label">ID do pedido (enviado no WhatsApp)</label>
-                    <input type="text" id="conta-pedido" class="form-input" placeholder="Ex: GRP-001-003"
-                        onkeydown="if(event.key==='Enter')loginConta()">
+                    <label class="form-label">Senha</label>
+                    <input type="password" id="auth-login-pass" class="form-input" placeholder="Sua senha secreta" onkeydown="if(event.key==='Enter') window.authLogin()">
                 </div>
+                <div style="text-align:right; margin-bottom:24px;">
+                    <a href="#" onclick="alert('Funcionalidade de recuperar senha em desenvolvimento. Fale com o suporte no WhatsApp.')" style="color:var(--gray-500); font-size:0.8rem;">Esqueci minha senha</a>
+                </div>
+
+                <button class="btn btn-primary btn-block" onclick="window.authLogin()" style="margin-bottom:12px;">Entrar na minha conta</button>
+                <button class="btn btn-secondary btn-block" onclick="toggleAuthView('register')">Criar nova conta</button>
             </div>
 
-            <button class="btn btn-google btn-block" onclick="loginConta()">Acessar minha conta</button>
-            <p id="conta-error"
-                style="color:var(--g-red);text-align:center;font-size:0.85rem;margin-top:12px;display:none;">Dados nao
-                encontrados. Verifique e tente novamente.</p>
+            <!-- CADASTRO -->
+            <div id="auth-register-view" style="display:none;">
+                <div class="form-group">
+                    <label class="form-label">Nome Completo</label>
+                    <input type="text" id="auth-reg-name" class="form-input" placeholder="Ex: Joao Silva">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">WhatsApp</label>
+                    <input type="tel" id="auth-reg-phone" class="form-input" placeholder="(11) 99999-9999">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-mail</label>
+                    <input type="email" id="auth-reg-email" class="form-input" placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Criar Senha</label>
+                    <input type="password" id="auth-reg-pass" class="form-input" placeholder="Min. 6 caracteres">
+                </div>
 
-            <div style="text-align:center;margin-top:20px;">
+                <button class="btn btn-primary btn-block" onclick="window.authRegister()" style="margin-bottom:12px;">Finalizar Cadastro</button>
+                <button class="btn btn-secondary btn-block" onclick="toggleAuthView('login')">Ja tenho conta (Entrar)</button>
+            </div>
+
+            <p id="conta-error" style="color:var(--g-red);text-align:center;font-size:0.85rem;margin-top:16px;display:none;">Dados invalidos. Tente novamente.</p>
+
+            <div style="text-align:center;margin-top:24px;border-top:1px solid rgba(255,255,255,0.1);padding-top:16px;">
                 <p style="font-size:0.8rem;color:var(--gray-500);">Problemas para acessar? <a href="#"
                         onclick="openWhatsApp()" style="color:var(--g-blue);font-weight:500;">Fale no WhatsApp</a></p>
                 <a href="index.html"
@@ -61,8 +80,10 @@
     <!-- PAINEL DO CLIENTE -->
     <div id="conta-painel" style="display:none;">
         <nav class="conta-nav">
-            <a href="index.html" class="conta-brand" style="font-size:1.1rem;">
-                <img src="img/logohd.png" alt="Rateios.pro" class="logo-img">
+            <a href="index.html" class="conta-brand" style="font-size:1.1rem; text-decoration: none;">
+                <span style="font-size: 1.2rem; font-weight: 800; letter-spacing: -0.5px;">
+                  <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span style="color:rgba(255,255,255,0.4)">.pro</span>
+                </span>
             </a>
             <div style="display:flex;align-items:center;gap:16px;">
                 <span id="conta-username" style="font-size:0.9rem;color:var(--gray-600);"></span>
@@ -153,6 +174,13 @@
                         </div>
                     </div>
                 </div>
+                
+                <a href="cursos.html" class="btn btn-primary btn-block" style="margin-top: 32px; font-size: 1.1rem; padding: 18px; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    Acessar Área de Aulas
+                </a>
             </div>
 
             <!-- HISTORICO DE PEDIDOS -->
@@ -199,6 +227,7 @@
     </div>
 
     <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/conta.js"></script>
 </body>
 

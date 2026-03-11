@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treinamentos - Rateios.pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cursos.css">
+</head>
+
+<body class="cursos-body">
+    <!-- NAVBAR -->
+    <nav class="conta-nav">
+        <a href="conta.html" class="conta-brand" style="font-size:1.1rem; position: relative; left: 0; transform: none; text-decoration: none;">
+            <span style="font-size: 1.2rem; font-weight: 800; letter-spacing: -0.5px;">
+              <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span style="color:rgba(255,255,255,0.4)">.pro</span>
+            </span>
+        </a>
+        <div style="display:flex;align-items:center;gap:16px;">
+            <a href="conta.html" class="btn btn-sm btn-secondary" style="text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04); color: #E8EAED;">&larr; Voltar para Conta</a>
+        </div>
+    </nav>
+
+    <div class="cursos-layout">
+        <!-- SIDEBAR (MODULES) -->
+        <aside class="cursos-sidebar">
+            <h3 class="sidebar-title">Módulos</h3>
+            <ul class="module-list" id="module-list">
+                <li class="module-item active" onclick="loadModule('veo3')">
+                    <span class="module-icon">🎬</span>
+                    <div class="module-info">
+                        <strong>Dominando o Veo 3</strong>
+                        <span>Geração Cinematográfica</span>
+                    </div>
+                </li>
+                <li class="module-item" onclick="loadModule('flow')">
+                    <span class="module-icon">🚀</span>
+                    <div class="module-info">
+                        <strong>Google Flow Essencial</strong>
+                        <span>Workflows e automações</span>
+                    </div>
+                </li>
+                <li class="module-item" onclick="loadModule('nano')">
+                    <span class="module-icon">🍌</span>
+                    <div class="module-info">
+                        <strong>Segredos Nano Banana</strong>
+                        <span>DarkPlanner V8</span>
+                    </div>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT (PLAYER & LIST) -->
+        <main class="cursos-main">
+            <!-- VIDEO PLAYER AREA -->
+            <div class="player-container">
+                <div class="video-wrapper" id="video-player">
+                    <!-- Placeholder for the video iframe/tag -->
+                    <div class="video-placeholder">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="var(--blue)">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <p id="current-video-title" style="margin-top: 16px; font-weight: 500; color: #E8EAED;">Selecione uma aula abaixo para começar</p>
+                    </div>
+                </div>
+                <div class="video-details">
+                    <h1 class="video-title" id="course-title">Bem-vindo à área de membros</h1>
+                    <p class="video-desc" id="course-desc">Aprenda a dominar todas as ferramentas entregues no plano Google Ultra. Selecione um módulo na barra lateral e uma aula para iniciar.</p>
+                </div>
+            </div>
+
+            <!-- LESSONS LIST (Netflix Style Grid) -->
+            <div class="lessons-section">
+                <h3 class="lessons-section-title">Aulas deste módulo</h3>
+                <div class="lessons-grid" id="lessons-grid">
+                    <!-- Lessons will be injected here via JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/cursos.js"></script>
+</body>
+
+</html>

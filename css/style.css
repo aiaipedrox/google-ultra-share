@@ -265,195 +265,118 @@ section {
 
 /* Removed old glow backgrounds */
 
-.hero .container {
+/* ===== NEW MATRIX HERO (IMMERSIVE 3D) ===== */
+.matrix-hero-container {
   display: flex;
-  align-items: center;
-  gap: 64px;
-}
-
-.hero-content {
-  flex: 1;
-  max-width: 580px;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--gray-700);
-  margin-bottom: 24px;
-  animation: fadeInUp 0.6s var(--ease-out) both;
-}
-
-.pulse {
-  width: 8px;
-  height: 8px;
-  background: var(--g-green);
-  border-radius: 50%;
-  animation: pulse 2s ease infinite;
-}
-
-.hero h1 {
-  margin-bottom: 20px;
-  animation: fadeInUp 0.6s var(--ease-out) 0.1s both;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, var(--g-blue), var(--g-green));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero>.container>.hero-content>p {
-  font-size: 1.1rem;
-  margin-bottom: 32px;
-  animation: fadeInUp 0.6s var(--ease-out) 0.2s both;
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  animation: fadeInUp 0.6s var(--ease-out) 0.3s both;
-}
-
-.hero-visual {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  animation: fadeInUp 0.8s var(--ease-out) 0.4s both;
-}
-
-.hero-card {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-xl);
-  padding: 32px;
-  box-shadow: var(--shadow-xl);
-  width: 340px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--g-blue), var(--g-red), var(--g-yellow), var(--g-green));
-}
-
-.hero-card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--gray-100);
-}
-
-.hero-card-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.hero-card-header h4 {
-  font-size: 1rem;
-  margin-bottom: 2px;
-}
-
-.hero-card-header span {
-  font-size: 0.8rem;
-  color: var(--gray-500);
-}
-
-.hero-card-price {
   text-align: center;
+  padding-top: 40px;
+}
+
+.matrix-heading h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
 }
 
-.hero-card-price .original {
-  font-size: 0.85rem;
-  color: var(--gray-500);
-  text-decoration: line-through;
-  margin-bottom: 4px;
+.matrix-heading .hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
 }
 
-.hero-card-price .per-person {
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: var(--gray-900);
+.matrix-interactive-area {
+  position: relative;
+  width: 100%;
+  max-width: 900px; /* Largura ideal 16:9 relativa */
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 100px rgba(0,255,100,0.1);
+  border: 1px solid rgba(255,255,255,0.05);
+  transform-style: preserve-3d;
 }
 
-.hero-card-price .per-person span {
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: var(--gray-500);
+/* O Hacker no Fundo */
+.matrix-bg-hacker {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  transform: translateZ(-20px) scale(1.05); /* Efeito minímo parallax interno */
+  z-index: 0;
 }
 
-.hero-card-price .savings {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 8px;
-  padding: 4px 12px;
-  background: rgba(52, 168, 83, 0.1);
-  color: var(--g-green);
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
-  font-weight: 600;
+/* As mãos na frente */
+.matrix-hands-layer {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  transform: translateZ(30px); /* Salta pra fora do monitor com Tilt */
+  z-index: 1;
 }
 
-.hero-card-members .info {
-  font-size: 0.85rem;
-  color: var(--gray-900);
+.matrix-img-hands {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* A imagem 16:9 já garante a posição, pode usar mix-blend-mode em casos mais complexos */
 }
 
-.member-avatars {
-  display: flex;
-}
-
-.avatar {
-  width: 32px;
-  height: 32px;
+/* Botões Reais em cima das píulas da imagem */
+.pill-btn {
+  position: absolute;
+  width: 15%; /* Tamanho relativo clicável */
+  height: 25%;
   border-radius: 50%;
-  border: 2px solid var(--white);
-  margin-left: -8px;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--white);
+  opacity: 0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.avatar:first-child {
-  margin-left: 0;
+/* Posicionamento baseado na Imagem 16:9 - PRECISA SER TESTADO VISUALMENTE */
+.pill-blue-overlay {
+  top: 55%; 
+  left: 28%; /* Centralizando na pílula azul na mão esquerda */
+  box-shadow: 0 0 30px 10px rgba(66, 133, 244, 0.8);
 }
 
-.hero-card-members .info {
-  font-size: 0.85rem;
-  color: var(--gray-700);
+.pill-red-overlay {
+  top: 55%; 
+  right: 28%; /* Centralizando na pílula vermelha na mão direita */
+  box-shadow: 0 0 30px 10px rgba(234, 67, 53, 0.8);
 }
 
-.hero-card-members .info strong {
-  color: var(--g-blue);
+.pill-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
 }
+
+.pill-btn-hover {
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.2);
+  pointer-events: none; /* Para não atrapalhar o clique na tag A real */
+}
+
 
 /* ===== BUTTONS ===== */
 .btn {
