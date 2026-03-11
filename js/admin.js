@@ -284,11 +284,13 @@ function addGroup() {
     var slots = parseInt(document.getElementById('new-group-slots').value) || 6;
     var price = parseFloat(document.getElementById('new-group-price').value) || 129.90;
     var link = document.getElementById('new-group-link').value.trim();
+    var emailMae = document.getElementById('new-group-email-mae').value.trim();
     var photo = pendingPhotoData['new-group-photo-preview'] || null;
 
-    API.createGroup({ name: name, totalSlots: slots, price: price, link: link, photo: photo }).then(function () {
+    API.createGroup({ name: name, totalSlots: slots, price: price, link: link, photo: photo, emailMae: emailMae }).then(function () {
         closeModals();
         document.getElementById('new-group-name').value = '';
+        document.getElementById('new-group-email-mae').value = '';
         delete pendingPhotoData['new-group-photo-preview'];
         refreshAll();
     });
@@ -303,6 +305,7 @@ function editGroup(id) {
     document.getElementById('edit-group-slots').value = g.totalSlots;
     document.getElementById('edit-group-price').value = g.price;
     document.getElementById('edit-group-link').value = g.link || '';
+    document.getElementById('edit-group-email-mae').value = g.emailMae || '';
 
     var preview = document.getElementById('edit-group-photo-preview');
     if (g.photo) {
@@ -312,6 +315,27 @@ function editGroup(id) {
         preview.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#9AA0A6"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
         delete pendingPhotoData['edit-group-photo-preview'];
     }
+
+    // Carregar membros do grupo
+    API.getMembers(g.id, 'all').then(function (members) {
+        var listDiv = document.getElementById('edit-group-members-list');
+        if (!members || members.length === 0) {
+            listDiv.innerHTML = '<p style="color:#9AA0A6; text-align:center; padding:12px; margin:0; font-size:0.85rem;">Nenhum membro neste grupo.</p>';
+        } else {
+            listDiv.innerHTML = members.map(function (m) {
+                var statusDot = m.status === 'ativo' ? '#34A853' : (m.status === 'pendente' ? '#FBBC05' : '#EA4335');
+                return '<div onclick="copyMemberEmail(\'' + (m.email || '') + '\')" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; cursor:pointer; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.06)\'" onmouseout="this.style.background=\'transparent\'">' +
+                    '<div style="width:8px; height:8px; border-radius:50%; background:' + statusDot + '; flex-shrink:0;"></div>' +
+                    '<div style="flex:1; min-width:0;">' +
+                    '<div style="font-size:0.85rem; font-weight:600; color:#E8EAED; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + m.name + '</div>' +
+                    '<div style="font-size:0.75rem; color:#9AA0A6; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + (m.email || 'sem email') + '</div>' +
+                    '</div>' +
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="#9AA0A6" style="flex-shrink:0;"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>' +
+                    '</div>';
+            }).join('');
+        }
+    });
+
     showModal('edit-group');
 }
 
@@ -322,7 +346,8 @@ function saveGroup() {
         name: document.getElementById('edit-group-name').value.trim(),
         totalSlots: parseInt(document.getElementById('edit-group-slots').value) || 6,
         price: parseFloat(document.getElementById('edit-group-price').value) || 129.90,
-        link: document.getElementById('edit-group-link').value.trim()
+        link: document.getElementById('edit-group-link').value.trim(),
+        emailMae: document.getElementById('edit-group-email-mae').value.trim()
     };
     if (pendingPhotoData['edit-group-photo-preview']) data.photo = pendingPhotoData['edit-group-photo-preview'];
     API.updateGroup(data).then(function () {
@@ -330,6 +355,18 @@ function saveGroup() {
         delete pendingPhotoData['edit-group-photo-preview'];
         refreshAll();
     });
+}
+
+// Copiar email do membro ao clicar
+function copyMemberEmail(email) {
+    if (!email) { alert('Membro sem email cadastrado'); return; }
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(email).then(function () {
+            alert('Email copiado: ' + email);
+        });
+    } else {
+        prompt('Copie o email:', email);
+    }
 }
 
 function deleteGroup() {

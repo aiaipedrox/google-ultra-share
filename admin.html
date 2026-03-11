@@ -193,6 +193,8 @@
             <div class="form-group"><label class="form-label">Link pagamento</label><input type="text"
                     id="new-group-link" class="form-input"
                     value="https://checkout.diasmarketplace.com.br/link/rateios-google-ultra"></div>
+            <div class="form-group"><label class="form-label">Email Conta Mãe (Google)</label><input type="email"
+                    id="new-group-email-mae" class="form-input" placeholder="contamae@gmail.com"></div>
             <button class="btn btn-primary btn-block" onclick="addGroup()">Criar grupo</button>
         </div>
     </div>
@@ -260,6 +262,15 @@
             </div>
             <div class="form-group"><label class="form-label">Link</label><input type="text" id="edit-group-link"
                     class="form-input"></div>
+            <div class="form-group"><label class="form-label">Email Conta Mãe (Google)</label><input type="email"
+                    id="edit-group-email-mae" class="form-input" placeholder="contamae@gmail.com"></div>
+            
+            <!-- Membros deste grupo -->
+            <div class="form-group">
+                <label class="form-label">Membros do Grupo <small style="color:#9AA0A6;">(clique p/ copiar email)</small></label>
+                <div id="edit-group-members-list" style="background:rgba(255,255,255,0.03); border-radius:12px; padding:8px; max-height:200px; overflow-y:auto;"></div>
+            </div>
+
             <input type="hidden" id="edit-group-id">
             <div class="form-row"><button class="btn btn-primary flex-1" onclick="saveGroup()">Salvar</button><button
                     class="btn btn-danger flex-1" onclick="deleteGroup()">Excluir</button></div>
