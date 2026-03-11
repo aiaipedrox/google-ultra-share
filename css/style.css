@@ -144,9 +144,7 @@ section {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--gray-900);
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  flex-shrink: 0;
 }
 
 .logo-img {
