@@ -17,17 +17,14 @@
 
 <body>
 
-  <!-- Animated backgrounds from maintenance page -->
-  <div class="bg-gradient"></div>
-  <div class="grid-overlay"></div>
-  <div class="particles" id="particles"></div>
+  <!-- Removed Animated Matrix Backgrounds -->
 
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="container">
       <a href="index.html" class="navbar-brand">
         <span style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">
-          <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span style="color:rgba(255,255,255,0.4)">.pro</span>
+          <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span style="color:var(--gray-500)">.pro</span>
         </span>
       </a>
       <div class="navbar-links" id="nav-links">
@@ -50,32 +47,31 @@
     </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- HERO APPLE STYLE -->
   <section class="hero" id="hero">
-    <div class="container">
-      <!-- NEW MATRIX 3D HERO (The Two Pills) -->
-      <div class="matrix-hero-container">
-        
-        <div class="matrix-heading">
-          <div class="hero-badge" style="margin: 0 auto 24px;">
-            <span class="pulse"></span>
-            Rateios.pro V8
-          </div>
-          <h1>Google One AI <span class="gradient-text">Premium.</span></h1>
-          <p class="hero-sub" style="max-width:600px; margin: 0 auto; color: #9AA0A6;">
-            Tudo do Google em um só plano: <strong>Gemini Advanced</strong>, <strong>2TB no Drive</strong>, <strong>VPN</strong> e edição premium de fotos e vídeos — por apenas <strong>R$ 129,90/mês</strong>.
-          </p>
-        <div class="matrix-interactive-area" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
-          <img src="img/matrix_hacker_bg.png" alt="Matrix Hacker" class="matrix-bg-hacker">
-          <div class="matrix-hands-layer">
-            <img src="img/matrix_hands_pills.png" alt="Matrix Hands" class="matrix-img-hands">
-            <!-- Pílula Azul (Esquerda) - Google Ultra -->
-            <a href="#grupos" class="pill-btn pill-blue-overlay">
-              <span class="pill-btn-hover">Garantir Vaga</span>
-            </a>
-            <!-- Pílula Vermelha ocultada por enquanto -->
-          </div>
-        </div>
+    <div class="container" style="text-align: center; max-width: 800px;">
+      <div class="hero-badge" style="margin: 0 auto 24px; background: rgba(0,0,0,0.05); color: var(--gray-700); border-color: var(--gray-200);">
+        <span class="pulse" style="background: var(--g-blue);"></span>
+        Rateios.pro V8
+      </div>
+      <h1 style="font-weight: 700; letter-spacing: -0.04em; margin-bottom: 24px; color: var(--gray-800);">
+        Google One AI Premium.
+      </h1>
+      <p class="hero-sub" style="font-size: 1.25rem; color: var(--gray-600); margin-bottom: 40px; line-height: 1.5;">
+        Tudo do Google em um só plano: <strong>Gemini Advanced</strong>, <strong>2TB no Drive</strong>, <strong>VPN</strong> e edição premium de fotos e vídeos — por apenas <strong>R$ 129,90/mês</strong>.
+      </p>
+      <div style="display: flex; gap: 16px; justify-content: center; align-items: center;">
+        <a href="#grupos" class="btn btn-primary" style="padding: 16px 32px; font-size: 1.1rem; border-radius: 999px;">
+          Garantir Vaga
+        </a>
+        <a href="#como-funciona" class="btn btn-secondary" style="padding: 16px 32px; font-size: 1.1rem; border-radius: 999px; background: var(--gray-200); color: var(--gray-900); border: none;">
+          Saber mais
+        </a>
+      </div>
+      
+      <!-- Minimalist Product Dashboard Mockup -->
+      <div style="margin-top: 60px; max-width: 100%; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-xl); border: 1px solid var(--gray-200); background: white; padding: 10px;">
+         <img src="img/flow-3d.png" style="width: 100%; height: auto; display: block; filter: saturate(1.2);" alt="Google Apps UI">
       </div>
     </div>
   </section>
