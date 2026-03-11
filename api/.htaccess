@@ -2,11 +2,11 @@
 Options -Indexes
 ServerSignature Off
 
-# TEMP: Allow install.php (re-block after running)
-#<Files "install.php">
-#    Order Allow,Deny
-#    Deny from all
-#</Files>
+# Block install.php after first run
+<Files "install.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
 
 # Block config.php direct access
 <Files "config.php">
