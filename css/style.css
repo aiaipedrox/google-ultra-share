@@ -148,8 +148,10 @@ section {
 }
 
 .logo-img {
-  height: 32px;
+  height: 28px;
   width: auto;
+  max-width: 120px;
+  object-fit: contain;
 }
 
 .logo-dots {
