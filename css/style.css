@@ -571,7 +571,7 @@ section {
   margin: 0 auto 24px;
   font-size: 1.5rem;
   font-weight: 700;
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.04);
   box-shadow: var(--shadow-md);
   border: 2px solid var(--gray-200);
   transition: all 0.3s var(--ease);
@@ -637,7 +637,7 @@ section {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   transition: all 0.3s var(--ease);
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .benefit-card:hover {
@@ -1275,6 +1275,17 @@ section {
 }
 
 @media (max-width: 480px) {
+  .navbar .container {
+    padding: 0 16px;
+    position: relative;
+  }
+  
+  .navbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .container {
     padding: 0 16px;
   }

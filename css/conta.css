@@ -1,6 +1,7 @@
 /* ===== CONTA STYLES ===== */
 .conta-body {
-    background: #F8F9FA;
+    background: #0a0a0f;
+    color: #E8EAED;
 }
 
 /* LOGIN */
@@ -9,18 +10,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #F8F9FA 0%, #E8EAED 100%);
+    background: #0a0a0f;
     padding: 24px;
 }
 
 .conta-login-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.04);
     border-radius: 20px;
     padding: 40px;
     width: 100%;
     max-width: 440px;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
-    border: 1px solid #E8EAED;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .conta-brand {
@@ -29,7 +30,7 @@
     gap: 8px;
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--gray-900);
+    color: #ffffff;
     margin-bottom: 24px;
     text-decoration: none;
 }
@@ -61,9 +62,9 @@
 .conta-nav {
     position: sticky;
     top: 0;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(10, 10, 15, 0.9);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid #E8EAED;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: 0 32px;
     height: 64px;
     display: flex;
@@ -83,8 +84,8 @@
 }
 
 .conta-card {
-    background: white;
-    border: 1px solid #E8EAED;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 32px;
 }
@@ -100,7 +101,7 @@
     gap: 16px;
     margin-bottom: 28px;
     padding-bottom: 24px;
-    border-bottom: 1px solid #F1F3F4;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .status-icon-wrap {
@@ -154,7 +155,7 @@
 .detail-value {
     font-size: 1rem;
     font-weight: 500;
-    color: #202124;
+    color: #E8EAED;
 }
 
 /* BENEFICIOS */
@@ -169,7 +170,7 @@
     align-items: center;
     gap: 12px;
     padding: 16px;
-    border: 1px solid #E8EAED;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
 }
 
@@ -213,7 +214,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 0;
-    border-bottom: 1px solid #F8F9FA;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .pedido-item:last-child {
@@ -234,7 +235,7 @@
 
 .pedido-desc {
     font-size: 0.9rem;
-    color: #202124;
+    color: #E8EAED;
 }
 
 /* SUPORTE */
@@ -266,18 +267,19 @@
     display: block;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #3C4043;
+    color: #E8EAED;
     margin-bottom: 8px;
 }
 
 .form-input {
     width: 100%;
     padding: 12px 16px;
-    border: 1px solid #E8EAED;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     font-size: 0.95rem;
     font-family: inherit;
-    color: #202124;
+    color: #E8EAED;
+    background: rgba(255, 255, 255, 0.04);
     outline: none;
     transition: border-color 0.2s;
 }

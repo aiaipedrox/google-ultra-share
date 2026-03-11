@@ -10,11 +10,11 @@
     --red: #EA4335;
     --yellow: #FBBC05;
     --green: #34A853;
-    --bg: #F0F2F5;
-    --card: #FFFFFF;
-    --text: #202124;
-    --sub: #5F6368;
-    --border: #E8EAED;
+    --bg: #0a0a0f;
+    --card: rgba(255, 255, 255, 0.04);
+    --text: #E8EAED;
+    --sub: #9AA0A6;
+    --border: rgba(255, 255, 255, 0.1);
     --radius: 14px;
 }
 
@@ -33,7 +33,7 @@ body.admin-body {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: linear-gradient(135deg, #F8F9FA, #E8EAED);
+    background: #0a0a0f;
 }
 
 .login-card {
@@ -81,7 +81,7 @@ body.admin-body {
     font-size: 0.95rem;
     font-family: inherit;
     color: var(--text);
-    background: white;
+    background: rgba(255, 255, 255, 0.04);
     outline: none;
     transition: border-color 0.2s;
     -webkit-appearance: none;
@@ -146,7 +146,7 @@ body.admin-body {
 
 .btn-primary {
     background: var(--blue);
-    color: white;
+    color: #ffffff;
 }
 
 .btn-primary:hover {
@@ -210,7 +210,7 @@ body.admin-body {
     font-size: 0.65rem;
     font-weight: 700;
     background: var(--blue);
-    color: white;
+    color: #ffffff;
     padding: 2px 8px;
     border-radius: 6px;
     text-transform: uppercase;
@@ -393,7 +393,7 @@ body.admin-body {
     justify-content: center;
     font-weight: 800;
     font-size: 0.9rem;
-    color: white;
+    color: #ffffff;
     flex-shrink: 0;
 }
 
