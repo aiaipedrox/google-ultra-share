@@ -8,38 +8,44 @@
 }
 
 :root {
-  --g-blue: #007AFF; /* Apple Blue Accent */
-  --g-red: #FF3B30; /* Apple Red */
-  --g-yellow: #FF9500; /* Apple Orange/Yellow */
-  --g-green: #34C759; /* Apple Green */
-  --white: #F5F5F7; /* Apple Website Background */
+  /* Google Colors - Vibrant on Dark */
+  --g-blue: #4285F4;
+  --g-red: #EA4335;
+  --g-yellow: #FBBC05;
+  --g-green: #34A853;
   
-  /* Gray Scale - Apple Light Theme */
-  --gray-50: #FFFFFF; /* Pure White for Cards */
-  --gray-100: #F5F5F7; /* Secondary BG */
-  --gray-200: #E5E5EA; /* Light Borders */
-  --gray-300: #D1D1D6; /* Borders */
-  --gray-400: #C7C7CC; /* Disabled Text/Icons */
-  --gray-500: #8E8E93; /* Muted Text */
-  --gray-600: #3A3A3C; /* Secondary Text */
-  --gray-700: #1C1C1E; /* Primary Text */
-  --gray-800: #1D1D1F; /* Darkest Text */
-  --gray-900: #000000; /* Pure Black */
+  --white: #000000; /* Pure Black Background */
+  
+  /* DarkPath Scale */
+  --gray-50: #0A0A0F;  /* Card surfaces */
+  --gray-100: #111116; /* Elevated/Hover */
+  --gray-200: rgba(255, 255, 255, 0.06); /* Ultra-thin borders */
+  --gray-300: rgba(255, 255, 255, 0.10); /* Active borders */
+  --gray-400: #555560; /* Disabled */
+  --gray-500: #71717A; /* Muted icons */
+  --gray-600: #A1A1AA; /* Secondary text */
+  --gray-700: #D4D4D8; /* Body text */
+  --gray-800: #E4E4E7; /* Headings */
+  --gray-900: #FFFFFF; /* Pure white titles */
   
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 18px; /* Apple uses larger, smoother radius */
+  --radius-lg: 20px; 
   --radius-xl: 24px;
   --radius-xxl: 32px;
   --radius-full: 9999px;
   
-  /* Apple-style Smooth Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.12);
+  /* DarkPath Shadows - Deep & Subtle */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.9);
+  --shadow-xl: 0 24px 64px rgba(0, 0, 0, 1);
   
-  --ease: cubic-bezier(0.25, 0.1, 0.25, 1); /* Smoother native-like easing */
+  /* Glow */
+  --glow-blue: 0 0 60px rgba(66, 133, 244, 0.15);
+  --glow-blue-strong: 0 0 80px rgba(66, 133, 244, 0.25);
+  
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1); 
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
 }
 
@@ -52,8 +58,11 @@ body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: var(--gray-900);
+  color: var(--gray-700);
   background: var(--white);
+  /* DarkPath dot-pattern texture */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
   overflow-x: hidden;
 }
 
@@ -131,9 +140,9 @@ section {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.7); /* Light Glassmorphism */
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-bottom: 1px solid var(--gray-200);
   transition: all 0.3s var(--ease);
 }
@@ -228,18 +237,19 @@ section {
 .navbar-cta {
   display: inline-flex;
   align-items: center;
-  padding: 8px 16px;
-  background: var(--gray-900);
-  color: var(--white) !important;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #4285F4, #5B9BFF);
+  color: #FFFFFF !important;
   border-radius: var(--radius-full);
   font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.2s var(--ease);
+  font-weight: 600;
+  transition: all 0.25s var(--ease);
+  box-shadow: 0 0 20px rgba(66, 133, 244, 0.2);
 }
 
 .navbar-cta:hover {
-  background: var(--g-blue);
-  transform: scale(1.02);
+  box-shadow: 0 0 40px rgba(66, 133, 244, 0.4);
+  transform: translateY(-1px);
 }
 
 .navbar-cta::after {
@@ -315,20 +325,21 @@ section {
   padding: 14px 28px;
   border-radius: var(--radius-full);
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.25s var(--ease);
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .btn-primary {
-  background: var(--gray-900);
+  background: linear-gradient(135deg, #4285F4, #5B9BFF);
   color: #FFFFFF;
+  box-shadow: 0 0 40px rgba(66, 133, 244, 0.25);
 }
 
 .btn-primary:hover {
-  background: var(--gray-800);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 0 60px rgba(66, 133, 244, 0.4);
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
@@ -343,17 +354,17 @@ section {
 }
 
 .btn-google {
-  background: var(--g-blue);
+  background: linear-gradient(135deg, #4285F4, #3367D6);
   color: #FFFFFF;
+  box-shadow: 0 0 30px rgba(66, 133, 244, 0.2);
 }
 
 .slot-dot.empty {
     background: var(--gray-200);
 }
 .btn-google:hover {
-  background: #005BB5; /* Apple Blue Darker */
+  box-shadow: 0 0 50px rgba(66, 133, 244, 0.35);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
 }
 
 .btn-sm {
@@ -412,13 +423,16 @@ section {
   top: 48px;
   left: 20%;
   right: 20%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--g-blue), var(--g-yellow), var(--g-green));
+  height: 1px;
+  background: var(--gray-200); /* Thin elegant border */
 }
 
 .step-card {
   text-align: center;
   padding: 32px;
+  background: var(--gray-50); /* Dark obsidian card */
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
 }
 
 .step-number {
@@ -431,44 +445,17 @@ section {
   margin: 0 auto 24px;
   font-size: 1.5rem;
   font-weight: 700;
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: var(--shadow-md);
-  border: 2px solid var(--gray-200);
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-200);
   transition: all 0.3s var(--ease);
-}
-
-.step-card:nth-child(1) .step-number {
-  color: var(--g-blue);
-  border-color: var(--g-blue);
-}
-
-.step-card:nth-child(2) .step-number {
-  color: var(--g-yellow);
-  border-color: var(--g-yellow);
-}
-
-.step-card:nth-child(3) .step-number {
-  color: var(--g-green);
-  border-color: var(--g-green);
 }
 
 .step-card:hover .step-number {
   transform: scale(1.1);
-}
-
-.step-card:nth-child(1):hover .step-number {
-  background: var(--g-blue);
-  color: var(--white);
-}
-
-.step-card:nth-child(2):hover .step-number {
-  background: var(--g-yellow);
-  color: var(--white);
-}
-
-.step-card:nth-child(3):hover .step-number {
-  background: var(--g-green);
-  color: var(--white);
+  background: var(--gray-900);
+  color: #000000;
+  border-color: var(--gray-900);
 }
 
 .step-card h3 {

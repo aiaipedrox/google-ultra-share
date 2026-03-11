@@ -16,16 +16,16 @@
 }
 
 .checkout-modal {
-    background: var(--white);
-    border: 1px solid var(--gray-200);
+    background: #0A0A0F;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-xl);
     padding: 32px;
     max-width: 480px;
     width: 100%;
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.9);
     max-height: 90vh;
     overflow-y: auto;
-    color: var(--gray-900);
+    color: #FFFFFF;
 }
 
 .checkout-header {
@@ -68,8 +68,8 @@
     height: 36px;
     border-radius: 50%;
     border: none;
-    background: #202124;
-    color: #9AA0A6;
+    background: rgba(255, 255, 255, 0.06);
+    color: #71717A;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,7 +78,7 @@
 }
 
 .checkout-close:hover {
-    background: #3C4043;
+    background: rgba(255, 255, 255, 0.1);
     color: #FFFFFF;
 }
 
@@ -189,8 +189,8 @@
 
 /* SUMMARY */
 .checkout-summary {
-    background: var(--gray-100);
-    border: 1px solid var(--gray-200);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 20px;
@@ -330,9 +330,23 @@
 
 /* ===== FLOW SECTION ===== */
 .flow-section {
-    background: var(--gray-50);
+    background: #000000;
     padding: 96px 0;
     overflow: hidden;
+    position: relative;
+}
+
+.flow-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(66, 133, 244, 0.08) 0%, transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
 }
 
 .flow-container {

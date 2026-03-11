@@ -24,7 +24,7 @@
     <div class="container">
       <a href="index.html" class="navbar-brand">
         <span style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">
-          <span style="color:#4285F4">R</span><span style="color:#EA4335">a</span><span style="color:#FBBC05">t</span><span style="color:#34A853">e</span><span style="color:#4285F4">i</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">s</span><span style="color:var(--gray-500)">.pro</span>
+          <span style="color:var(--g-blue)">R</span><span style="color:var(--g-red)">a</span><span style="color:var(--g-yellow)">t</span><span style="color:var(--g-green)">e</span><span style="color:var(--g-blue)">i</span><span style="color:var(--g-red)">o</span><span style="color:var(--g-yellow)">s</span><span style="color:var(--gray-500)">.pro</span>
         </span>
       </a>
       <div class="navbar-links" id="nav-links">
@@ -47,31 +47,44 @@
     </div>
   </nav>
 
-  <!-- HERO APPLE STYLE -->
+  <!-- HERO DARKPATH STYLE -->
   <section class="hero" id="hero">
-    <div class="container" style="text-align: center; max-width: 800px;">
-      <div class="hero-badge" style="margin: 0 auto 24px; background: rgba(0,0,0,0.05); color: var(--gray-700); border-color: var(--gray-200);">
-        <span class="pulse" style="background: var(--g-blue);"></span>
-        Rateios.pro V8
+    <div class="container" style="text-align: center; max-width: 800px; position: relative; z-index: 1;">
+      
+      <!-- Status Badge -->
+      <div class="hero-badge" style="margin: 0 auto 32px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--gray-600); border-radius: 999px; padding: 8px 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--g-green); animation: pulse 2s infinite;"></span>
+        Vagas Abertas
       </div>
-      <h1 style="font-weight: 700; letter-spacing: -0.04em; margin-bottom: 24px; color: var(--gray-800);">
-        Google One AI Premium.
+      
+      <!-- Monumental Title with Bounding Box -->
+      <h1 style="font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 700; letter-spacing: -0.04em; margin-bottom: 28px; color: #FFFFFF; line-height: 1.1;">
+        Google One AI
+        <span style="background: rgba(66, 133, 244, 0.15); border: 1px solid rgba(66, 133, 244, 0.3); border-radius: 8px; padding: 4px 12px; position: relative; display: inline-block;">Premium.</span>
       </h1>
-      <p class="hero-sub" style="font-size: 1.25rem; color: var(--gray-600); margin-bottom: 40px; line-height: 1.5;">
-        Tudo do Google em um só plano: <strong>Gemini Advanced</strong>, <strong>2TB no Drive</strong>, <strong>VPN</strong> e edição premium de fotos e vídeos — por apenas <strong>R$ 129,90/mês</strong>.
+      
+      <!-- Subtitle -->
+      <p style="font-size: 1.15rem; color: var(--gray-600); margin-bottom: 48px; line-height: 1.7; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Tudo do Google em um só plano: <strong style="color: var(--gray-800)">Gemini Advanced</strong>, <strong style="color: var(--gray-800)">2TB no Drive</strong>, <strong style="color: var(--gray-800)">VPN</strong> e edição premium — por apenas <strong style="color: #FFFFFF">R$ 129,90/mês</strong>.
       </p>
-      <div style="display: flex; gap: 16px; justify-content: center; align-items: center;">
-        <a href="#grupos" class="btn btn-primary" style="padding: 16px 32px; font-size: 1.1rem; border-radius: 999px;">
-          Garantir Vaga
+      
+      <!-- CTA Buttons -->
+      <div style="display: flex; gap: 16px; justify-content: center; align-items: center; margin-bottom: 80px;">
+        <a href="#grupos" class="btn btn-primary" style="padding: 16px 36px; font-size: 1.05rem;">
+          GARANTIR VAGA
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-left: 4px;"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
         </a>
-        <a href="#como-funciona" class="btn btn-secondary" style="padding: 16px 32px; font-size: 1.1rem; border-radius: 999px; background: var(--gray-200); color: var(--gray-900); border: none;">
+        <a href="#como-funciona" class="btn btn-secondary" style="padding: 16px 36px; font-size: 1.05rem;">
           Saber mais
         </a>
       </div>
       
-      <!-- Minimalist Product Dashboard Mockup -->
-      <div style="margin-top: 60px; max-width: 100%; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-xl); border: 1px solid var(--gray-200); background: white; padding: 10px;">
-         <img src="img/flow-3d.png" style="width: 100%; height: auto; display: block; filter: saturate(1.2);" alt="Google Apps UI">
+      <!-- Product Image with Organic Glow -->
+      <div style="position: relative; max-width: 100%;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 80%; background: radial-gradient(circle, rgba(66, 133, 244, 0.12) 0%, transparent 70%); filter: blur(60px); z-index: 0;"></div>
+        <div style="position: relative; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); z-index: 1;">
+          <img src="img/flow-3d.png" style="width: 100%; height: auto; display: block;" alt="Google Apps UI">
+        </div>
       </div>
     </div>
   </section>
