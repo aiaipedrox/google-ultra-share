@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteúdo Exclusivo - Rateios.pro</title>
+    <meta name="description" content="PDFs, workflows e guias exclusivos para membros do Google One AI Premium.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/conteudo.css">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <span style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">
+                    <span style="color:var(--g-blue)">R</span><span style="color:var(--g-red)">a</span><span style="color:var(--g-yellow)">t</span><span style="color:var(--g-green)">e</span><span style="color:var(--g-blue)">i</span><span style="color:var(--g-red)">o</span><span style="color:var(--g-yellow)">s</span><span style="color:var(--gray-500)">.pro</span>
+                </span>
+            </a>
+            <div style="display:flex;align-items:center;gap:16px;">
+                <a href="index.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">← Voltar</a>
+                <a href="#" class="navbar-cta" onclick="document.getElementById('produtos-grid').scrollIntoView({behavior:'smooth'})">Ver Conteúdo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO MINI -->
+    <section class="conteudo-hero">
+        <div class="container" style="text-align: center; max-width: 700px;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.85rem; color: var(--gray-600); margin-bottom: 32px;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--g-blue);"></span>
+                Área de Conteúdo
+            </div>
+            <h1 style="font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: #FFFFFF; letter-spacing: -0.04em; margin-bottom: 20px; line-height: 1.1;">
+                Conteúdo
+                <span style="background: rgba(66, 133, 244, 0.15); border: 1px solid rgba(66, 133, 244, 0.3); border-radius: 8px; padding: 4px 12px;">Exclusivo.</span>
+            </h1>
+            <p style="font-size: 1.1rem; color: var(--gray-600); line-height: 1.7;">
+                PDFs, workflows e guias para você dominar todas as ferramentas do Google One AI Premium.
+            </p>
+        </div>
+    </section>
+
+    <!-- PRODUTOS GRID -->
+    <section class="conteudo-section" id="produtos-grid">
+        <div class="container">
+            <div class="produtos-grid" id="grid-produtos">
+                <!-- Products loaded via JS -->
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando conteúdo...</p>
+                </div>
+            </div>
+            <p id="no-content" style="display:none; text-align:center; color: var(--gray-500); padding: 60px 0;">
+                Nenhum conteúdo disponível no momento.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand">
+                <span style="font-weight: 700;">
+                    <span style="color:var(--g-blue)">R</span><span style="color:var(--g-red)">a</span><span style="color:var(--g-yellow)">t</span><span style="color:var(--g-green)">e</span><span style="color:var(--g-blue)">i</span><span style="color:var(--g-red)">o</span><span style="color:var(--g-yellow)">s</span>
+                </span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#beneficios">Benefícios</a>
+            </div>
+            <span>© 2026 Rateios.pro</span>
+        </div>
+    </footer>
+
+    <script>
+        // Load products from API
+        var API_BASE = '/api';
+        
+        function loadPublicProducts() {
+            fetch(API_BASE + '/products.php')
+                .then(function(r) { return r.json(); })
+                .then(function(products) {
+                    renderPublicGrid(products);
+                })
+                .catch(function() {
+                    document.getElementById('grid-produtos').innerHTML = '<p style="text-align:center;color:#71717A;padding:40px;">Erro ao carregar. Tente novamente.</p>';
+                });
+        }
+        
+        function renderPublicGrid(products) {
+            var grid = document.getElementById('grid-produtos');
+            var noContent = document.getElementById('no-content');
+            
+            if (!products || products.length === 0) {
+                grid.innerHTML = '';
+                noContent.style.display = 'block';
+                return;
+            }
+            noContent.style.display = 'none';
+            
+            var categoryIcons = { pdf: '📄', workflow: '⚙️', template: '🎨', guia: '📘', outro: '📦' };
+            var categoryLabels = { pdf: 'PDF', workflow: 'Workflow', template: 'Template', guia: 'Guia', outro: 'Outro' };
+            
+            grid.innerHTML = products.map(function(p) {
+                var icon = categoryIcons[p.category] || '📦';
+                var label = categoryLabels[p.category] || 'Arquivo';
+                var priceText = parseFloat(p.price) > 0 ? 'R$ ' + parseFloat(p.price).toFixed(2) : 'Grátis';
+                var priceClass = parseFloat(p.price) > 0 ? '' : 'free';
+                var photoHtml = p.photo 
+                    ? '<div class="produto-img"><img src="' + p.photo + '" alt="' + p.title + '"></div>'
+                    : '<div class="produto-img placeholder"><span style="font-size: 3rem;">' + icon + '</span></div>';
+                var btnText = p.file_url ? 'Acessar' : 'Em breve';
+                var btnLink = p.file_url || '#';
+                var btnDisabled = p.file_url ? '' : ' disabled';
+                
+                return '<div class="produto-card">' +
+                    photoHtml +
+                    '<div class="produto-body">' +
+                        '<div class="produto-category"><span>' + icon + ' ' + label + '</span></div>' +
+                        '<h3 class="produto-title">' + p.title + '</h3>' +
+                        '<p class="produto-desc">' + (p.description || '') + '</p>' +
+                        '<div class="produto-footer">' +
+                            '<span class="produto-price ' + priceClass + '">' + priceText + '</span>' +
+                            '<a href="' + btnLink + '" target="_blank" class="btn btn-primary produto-btn"' + btnDisabled + '>' + btnText +
+                            ' <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></a>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadPublicProducts);
+    </script>
+</body>
+</html>

@@ -83,5 +83,20 @@ var API = {
     },
     deleteOrder: function (id) {
         return fetch(API.base + '/orders.php?id=' + id, { method: 'DELETE', headers: API.headers() }).then(function (r) { return r.json(); });
+    },
+
+    // Products
+    getProducts: function (all) {
+        var url = API.base + '/products.php' + (all ? '?all=1' : '');
+        return fetch(url).then(function (r) { return r.json(); });
+    },
+    createProduct: function (data) {
+        return fetch(API.base + '/products.php', { method: 'POST', headers: API.headers(), body: JSON.stringify(data) }).then(function (r) { return r.json(); });
+    },
+    updateProduct: function (data) {
+        return fetch(API.base + '/products.php', { method: 'PUT', headers: API.headers(), body: JSON.stringify(data) }).then(function (r) { return r.json(); });
+    },
+    deleteProductAPI: function (id) {
+        return fetch(API.base + '/products.php?id=' + id, { method: 'DELETE', headers: API.headers() }).then(function (r) { return r.json(); });
     }
 };

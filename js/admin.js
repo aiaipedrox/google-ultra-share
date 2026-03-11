@@ -536,3 +536,142 @@ function previewPhoto(input, previewId) {
     };
     reader.readAsDataURL(file);
 }
+
+// ===== PRODUCTS (VITRINE) =====
+var cachedProducts = [];
+
+function loadProducts() {
+    API.getProducts(true).then(function (products) {
+        cachedProducts = products;
+        renderProductsList(products);
+    }).catch(function () {
+        document.getElementById('products-list').innerHTML = '<p class="empty-msg">Erro ao carregar produtos.</p>';
+    });
+}
+
+function renderProductsList(products) {
+    var list = document.getElementById('products-list');
+    var noProducts = document.getElementById('no-products');
+    
+    if (!products || products.length === 0) {
+        list.innerHTML = '';
+        if (noProducts) noProducts.style.display = 'block';
+        return;
+    }
+    if (noProducts) noProducts.style.display = 'none';
+    
+    var categoryIcons = { pdf: '📄', workflow: '⚙️', template: '🎨', guia: '📘', outro: '📦' };
+    
+    list.innerHTML = products.map(function (p) {
+        var icon = categoryIcons[p.category] || '📦';
+        var statusClass = p.status === 'ativo' ? 'green' : 'red';
+        var photoHtml = p.photo
+            ? '<img src="' + p.photo + '" class="card-avatar-img" alt="' + p.title + '">'
+            : '<div class="card-avatar blue">' + icon + '</div>';
+        var priceText = parseFloat(p.price) > 0 ? 'R$ ' + parseFloat(p.price).toFixed(2) : 'Grátis';
+        
+        return '<div class="admin-card" onclick="editProductModal(' + p.id + ')">' +
+            '<div class="card-left">' + photoHtml +
+            '<div class="card-info"><strong>' + p.title + '</strong>' +
+            '<span>' + icon + ' ' + (p.category || 'pdf').toUpperCase() + ' · ' + priceText + '</span></div></div>' +
+            '<span class="badge ' + statusClass + '">' + p.status + '</span></div>';
+    }).join('');
+}
+
+function addProduct() {
+    var title = document.getElementById('new-product-title').value.trim();
+    if (!title) { alert('Título obrigatório'); return; }
+    
+    var data = {
+        title: title,
+        description: document.getElementById('new-product-desc').value.trim(),
+        price: parseFloat(document.getElementById('new-product-price').value) || 0,
+        category: document.getElementById('new-product-category').value,
+        file_url: document.getElementById('new-product-url').value.trim(),
+        photo: pendingPhotoData['new-product-photo-preview'] || null,
+        status: 'ativo'
+    };
+    
+    API.createProduct(data).then(function (res) {
+        if (res.success) {
+            closeModals();
+            document.getElementById('new-product-title').value = '';
+            document.getElementById('new-product-desc').value = '';
+            document.getElementById('new-product-price').value = '0.00';
+            document.getElementById('new-product-url').value = '';
+            document.getElementById('new-product-photo-preview').innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#9AA0A6"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
+            pendingPhotoData['new-product-photo-preview'] = null;
+            loadProducts();
+        } else {
+            alert(res.error || 'Erro ao criar produto');
+        }
+    });
+}
+
+function editProductModal(id) {
+    var p = cachedProducts.find(function (x) { return x.id == id; });
+    if (!p) return;
+    
+    document.getElementById('edit-product-id').value = p.id;
+    document.getElementById('edit-product-title').value = p.title;
+    document.getElementById('edit-product-desc').value = p.description || '';
+    document.getElementById('edit-product-price').value = p.price;
+    document.getElementById('edit-product-category').value = p.category || 'pdf';
+    document.getElementById('edit-product-url').value = p.file_url || '';
+    document.getElementById('edit-product-status').value = p.status;
+    
+    var preview = document.getElementById('edit-product-photo-preview');
+    if (p.photo) {
+        preview.innerHTML = '<img src="' + p.photo + '" alt="Foto">';
+    } else {
+        preview.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#9AA0A6"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
+    }
+    pendingPhotoData['edit-product-photo-preview'] = null;
+    
+    showModal('edit-product');
+}
+
+function saveProduct() {
+    var id = document.getElementById('edit-product-id').value;
+    var data = {
+        id: parseInt(id),
+        title: document.getElementById('edit-product-title').value.trim(),
+        description: document.getElementById('edit-product-desc').value.trim(),
+        price: parseFloat(document.getElementById('edit-product-price').value) || 0,
+        category: document.getElementById('edit-product-category').value,
+        file_url: document.getElementById('edit-product-url').value.trim(),
+        status: document.getElementById('edit-product-status').value
+    };
+    
+    if (pendingPhotoData['edit-product-photo-preview']) {
+        data.photo = pendingPhotoData['edit-product-photo-preview'];
+    }
+    
+    API.updateProduct(data).then(function (res) {
+        if (res.success) {
+            closeModals();
+            loadProducts();
+        } else {
+            alert(res.error || 'Erro ao salvar');
+        }
+    });
+}
+
+function deleteProduct() {
+    if (!confirm('Excluir este produto?')) return;
+    var id = document.getElementById('edit-product-id').value;
+    API.deleteProductAPI(id).then(function (res) {
+        if (res.success) {
+            closeModals();
+            loadProducts();
+        }
+    });
+}
+
+// Load products when switching to vitrine tab
+var origSwitchTab = switchTab;
+switchTab = function (tab) {
+    origSwitchTab(tab);
+    if (tab === 'vitrine') loadProducts();
+};
+

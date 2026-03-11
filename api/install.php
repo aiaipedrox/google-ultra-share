@@ -56,4 +56,18 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS orders (
 
 // No sample data — groups are created only via admin panel
 
-jsonResponse(['success' => true, 'message' => 'Tables created successfully']);
+$pdo->exec("CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) DEFAULT 0.00,
+    category VARCHAR(50) DEFAULT 'pdf',
+    photo LONGTEXT,
+    file_url TEXT,
+    status ENUM('ativo','inativo') DEFAULT 'ativo',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX(status),
+    INDEX(category)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+jsonResponse(['success' => true, 'message' => 'Tables created successfully (including products)']);
